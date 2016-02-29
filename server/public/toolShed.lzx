@@ -1,0 +1,92 @@
+<canvas bgcolor="#E0E0E0" height="100%" width="100%" fontsize="14" font="Helvetica">
+  <include href="lib/utils.lzx"/>
+  <include href="toolData.lzx"/>
+  <include href="lib/pageButton.lzx"/>
+
+  <script src="javascripts/osteele/lib/collections.js"/>
+
+  <handler name="oninit" >
+    // Get ride of the laszlo context menu
+    canvas.setDefaultContextMenu(null);
+    document.oncontextmenu = null;
+  </handler>
+
+  <!-- External call to set the tool -->
+  <event name="onsetTool"/>
+  <method name="setTool" args="toolName"><![CDATA[
+    onsetTool.sendEvent(toolName)
+  ]]></method>
+
+  <method name="selectTool" args="toolName"><![CDATA[
+    var command = 'skp:select_tool@'+toolName
+    //Debug.write("Calling: " + command)
+    window.location=command
+    //lz.Browser.loadURL(command)
+  ]]></method>
+
+  <!-- Deselect all but the given button -->
+  <event name="ondeselectAllBut"/>
+  <method name="deselectAllBut" args="button">
+    ondeselectAllBut.sendEvent(button)
+  </method>
+  <method name="deselectAllButToolNamed" args="toolName">
+    ondeselectAllButToolNamed.sendEvent(toolName)
+  </method>
+  <!-- A message from Sketchup that a tool has been completed or aborted, meaning the toolShed should deselect. The toolShed simply deselects all tools -->
+  <method name="deselectTool">
+    ondeselectAllBut.sendEvent(null)
+  </method>
+  <!-- A message from Sketchup that the tool has changed. The toolshed reacts by deselecting all but the given toolName, if it is represented in the toolshed -->
+  <method name="toolChanged" args="toolName">
+    deleselectAllButToolNamed(toolName)
+  </method>
+
+  <childrenHeightView name="toolGroups" clip="true">
+    <simplelayout axis="y" spacing="10"/>
+    <childrenHeightView name="toolGroup" datapath="toolData:/toolGroup">
+      <simplelayout axis="y" spacing="5"/>
+      <pageText width="${parent.width}" name="toolGroupLabel" text="$path{'@label'}" fontstyle="bold" align="center"/>
+      <childrenHeightView name="tools">
+        <wrappinglayout axis="x" spacing="10"/>
+        <childrenHeightView width="100" name="tool" datapath="tool">
+          <simplelayout axis="y" spacing="5"/>
+          <attribute name="resourceName" value="$path{'@resource'}"/>
+          <!-- The resources are 100x100 pixels. Make the buttons a bit smaller so the resources pop out-->
+          <pageButton name="toolButton" textVAlign="top" width="80" height="80" resourceName="${parent.resourceName}">
+            <!-- Make the selected color prominent -->
+            <attribute name="overStartColor" type="color" value="yellow" />
+            <!-- Use the name attribute for the button text -->
+            <attribute name="text" value="$path{'@name'}"/>
+            <!-- The toolData.lzx and setup.rb coordinated name of the tool -->
+            <attribute name="toolName" value="$path{'@name'}"/>
+            <!-- Handle external commands to select a tool by setting this button to selected if it matches -->
+            <handler name="onsetTool" reference="canvas" args="selectedToolName"><![CDATA[
+              this.setAttribute('buttonSelected', toolName == selectedToolName)
+            ]]></handler>
+            <!-- Respond to the event to deselect all buttons unless this button matches the argument -->
+            <handler name="ondeselectAllBut" reference="canvas"  args="button">
+              if (this != button)
+                this.setAttribute('buttonSelected', false)
+            </handler>
+            <handler name="ondeselectAllButToolNamed" reference="canvas"  args="toolName">
+              if (toolName != this.toolName)
+                this.setAttribute('buttonSelected', false)
+            </handler>
+            <!-- Overrides the mouseup handler method by sending the tool selection to Sketchup -->
+            <method name="handlemouseup"><![CDATA[
+              super.handlemouseup();
+              if (buttonSelected) {
+                canvas.selectTool(toolName)
+                canvas.deselectAllBut(this)
+              }
+            ]]></method>
+
+          </pageButton>
+          <pageText name="label" width="100" text="$path{'@label'}"/>
+        </childrenHeightView>
+      </childrenHeightView>
+    </childrenHeightView>
+  </childrenHeightView>
+  <scrollbar name="toolGroupScrollbar" x="${parent.width-this.width}" scrolltarget="$once{parent.toolGroups}"/>
+</canvas>
+

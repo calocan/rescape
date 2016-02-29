@@ -1,0 +1,14 @@
+<library>
+  <class name="postBackground">
+    <attribute name="headerHeight"/>
+  </class>
+
+  <class name="blogPostBackground" extends="postBackground" height="${parent.blogText.height}" headerHeight="${parchment.height*parchment.yscale}">
+    <event name="onselected"/>
+    <view name="paper" bgcolor="#B88A4E" x="25" y="${parent.parchment.height*parent.parchment.yscale/2}" height="${parent.height+this.y}" width="${parent.width*.92}"/>
+    <view name="parchment" resource="images/cylinder.png" xscale=".5" yscale=".5" onmouseup="parent.onselected.sendEvent()"/>
+  </class>
+
+  <class name="bookPostBackground" extends="postBackground" height="${parent.blogText.height}" headerHeight="0">
+  </class>
+</library>

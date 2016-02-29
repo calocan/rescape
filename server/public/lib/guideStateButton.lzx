@@ -1,0 +1,24 @@
+<library>
+  <include href="pageButton.lzx"/>
+  <class name="guideStateButton" extends="pageButton">
+    <attribute name='width' value="${null}"/>
+    <attribute name='multiline' value="$once{false}"/>
+    <!-- the name of the guideState -->
+    <attribute name="stateName" type="string"/>
+    <!-- refers to the guideStateData segment node whence to retrieve the button label -->
+    <attribute name="segmentName" type="string"/>
+    <attribute name="buttonSelected" value="false"/>
+
+    <!-- Set the xpath on init, this seems to work better than making an attribute-->
+    <handler name="oninit"><![CDATA[
+      var xpath = 'segment[@name="'+this.segmentName+'"]'
+      this.setAttribute('datapath', xpath)
+    ]]></handler>
+
+    <!-- When the data is ready perform a query on the <p> element to get the HTML. There's no easy way to combine text and html elements without using the p element, which laszlo doesn't seem to mind -->
+    <handler name="ondata">
+      this.setAttribute('text', datapath.xpathQuery('p/text()'))
+    </handler>
+
+  </class>
+</library>

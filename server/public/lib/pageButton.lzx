@@ -1,0 +1,37 @@
+<library>
+  <include href="roundrectbutton.lzx"/>
+  <class name="pageButton" extends="roundrectbutton"
+      onmouseup="handlemouseup()" >
+      <attribute name="buttonBuffer" value="2"/>
+      <attribute name="buttonSelected" value="false"/>
+      <attribute name="pageName" value="$path{'@name'}"/>
+      <!-- This is the text displayed on the button. Override this attribute to change the source -->
+      <attribute name="text" value="$path{'@label'}"/>
+      <attribute name="font" value="$once{canvas.font}"/>
+      <attribute name="fontsize" value="${canvas.fontsize}"/>
+      <attribute name="multiline" value="$once{true}"/>
+      <attribute name="height" value="${this._label.height*1.5}"/>
+      <!-- a set of color options ['downStartColor', 'downStopColor', 'upStartColor', 'upStopColor', 'overStartColor', 'overStopColor'] in a hash that have defaults but can be overridden -->
+      <attribute name="options" value="$once{ {} }"/>
+      <handler name="oninit">
+        var self = this;
+        var properties = ['downStartColor', 'downStopColor', 'upStartColor', 'upStopColor', 'overStartColor', 'overStopColor']
+        properties.forEach(function(attribute) {
+          attributeValue = options[attribute]
+          if (typeof attributeValue === 'object') {
+            self.setAttribute(attribute, attributeValue)
+          }
+        })
+        this.redraw();
+      </handler>
+      <!-- An overridable method to respond to the mouseup. Sets the buttonSelected to its reverse value, thus altering the selectedState of the button -->
+      <method name="handlemouseup">
+         this.setAttribute('buttonSelected', !buttonSelected)
+      </method>
+      <handler name="onbuttonSelected">
+        if (this.selectedState) {
+          this.selectedState.setAttribute('applied', buttonSelected)
+        }
+      </handler>
+  </class>
+</library>

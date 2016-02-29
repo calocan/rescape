@@ -1,0 +1,72 @@
+<library>
+  <include href="lib/guidePage.lzx"/>
+  <include href="lib/childrenHeightView.lzx"/>
+  <include href="lib/guideState.lzx"/>
+  <include href="lib/guideStateController.lzx"/>
+  <include href="lib/centeredView.lzx"/>
+  <include href="lib/dualOptionView.lzx"/>
+  <include href="lib/guideText.lzx"/>
+  <resource name="addWayIcon" src="images/tools/way_adder.png"/>
+  <resource name="modifyEdgesIcon" src="images/tools/edge_editor.png"/>
+  <resource name="edgeAssociatorIcon" src="images/tools/edge_associator.png"/>
+  <class name="modify_ways" extends="guidePage">
+
+    <guideState name="start_ways">
+      <simplelayout axis="y" spacing="$once{classroot.defaultySpacing}"/>
+      <guideText name="intro"/>
+    </guideState>
+
+    <guideState name="add_way">
+      <simplelayout axis="y" spacing="$once{classroot.defaultySpacing}"/>
+      <guideText name="addWayToolIntro"/>
+      <dualOptionView name="addWay" />
+      <guideText name="addPointsToLineForWay"/>
+      <guideStateController name="addPointsButton1" toStep="add_point_to_line_for_way_1"/>
+      <guideStateController name="addPointsButton2" toStep="add_point_to_line_for_way_2"/>
+      <guideStateController name="addPointsButton3" toStep="finish_line"/>
+      <guideText name="offsetWay"/>
+      <guideStateController name="offsetWayButton" toStep="offset_way_2"/>
+      <guideText name="finalizeOffset"/>
+      <guideStateController name="finalizeOffsetButton" toStep="finalize_way"/>
+    </guideState>
+
+    <guideState name="modify_edges">
+      <simplelayout axis="y" spacing="$once{classroot.defaultySpacing}"/>
+      <guideText name="modifyEdgesToolIntro"/>
+      <dualOptionView name="modifyEdges"/>
+      <guideText name="addPointsToLineForEdge"/>
+      <guideStateController name="addPointToLineForEdgeButton1" toStep="add_point_to_line_for_edge_modify_1"/>
+      <guideStateController name="addPointToLineForEdgeButton2" toStep="add_point_to_line_for_edge_modify_2"/>
+      <guideText name="finishLineForEdge"/>
+      <guideStateController name="finishLineForEdgeButton" toStep="finish_line_for_edge_modify"/>
+    </guideState>
+
+    <guideState name="add_internal_way">
+      <simplelayout axis="y" spacing="$once{classroot.defaultySpacing}"/>
+      <guideText name="addInternalWayToolIntro"/>
+      <dualOptionView name="addWay" />
+      <guideText name="addPointsToLineForWay"/>
+      <guideStateController name="addPointsButton1" dependsOnPreviousStates="true"  toStep="add_point_to_line_for_way_1"/>
+      <guideStateController name="addPointsButton2" toStep="add_point_to_line_for_way_2"/>
+      <guideStateController name="addPointsButton3" toStep="finish_line"/>
+      <guideText name="conclusion"/>
+    </guideState>
+
+    <guideState name="associate_edges">
+      <simplelayout axis="y" spacing="$once{classroot.defaultySpacing}"/>
+      <guideText name="edgeEdgeAssociationsIntro"/>
+      <dualOptionView name="edgeAssociator"/>
+      <guideText name="selectComponent"/>
+      <guideStateController name="clickComponent" toStep="click_component" dependsOnPreviousStates="true" />
+      <guideText name="selectEdgeAssociator"/>
+      <guideStateController name="clickEdgeAssoiator" toStep="click_edge_associator"/>
+      <guideText name="selectEdge"/>
+      <guideStateController name="clickEdge" toStep="click_edge"/>
+      <guideText name="selectCenterLine"/>
+      <guideStateController name="hoverCenterLine" toStep="hover_center_line"/>
+      <guideStateController name="clickCenterLine" toStep="click_center_line"/>
+      <guideText name="conclusion"/>
+    </guideState>
+  </class>
+</library>
+

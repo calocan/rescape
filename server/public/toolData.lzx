@@ -1,0 +1,49 @@
+<library>
+  <resource name="tutorial_loader_tool" src="images/tools/tutorial_loader_tool.png"/>
+  <resource name="way_loader_tool" src="images/tools/way_loader_tool.png"/>
+  <resource name="way_adder" src="images/tools/way_adder.png"/>
+  <resource name="way_remover" src="images/tools/way_remover.png"/>
+  <resource name="way_adjustor" src="images/tools/way_adjustor.png"/>
+  <resource name="edge_editor" src="images/tools/edge_editor.png"/>
+  <resource name="edge_offset_editor" src="images/tools/edge_offset_editor.png"/>
+  <resource name="edge_associator" src="images/tools/edge_associator.png"/>
+
+  <resource name="surface_creator" src="images/tools/surface_creator.png"/>
+
+  <resource name="line_offset_tool" src="images/tools/line_offset_tool.png"/>
+  <resource name="sidewalk_offset_tool" src="images/tools/sidewalk_offset_tool.png"/>
+  <resource name="cycle_track_offset_tool" src="images/tools/cycle_track_offset_tool.png"/>
+  <resource name="way_surface_offset_tool" src="images/tools/way_surface_offset_tool.png"/>
+  <resource name="tram_offset_tool" src="images/tools/tram_offset_tool.png"/>
+  <resource name="standard_rail_offset_tool" src="images/tools/standard_rail_offset_tool.png"/>
+  <resource name="component_offset_tool" src="images/tools/component_offset_tool.png"/>
+
+  <!-- The following tool names must match the name given in setup.rb -->
+  <dataset name="toolData">
+    <toolGroup name="tutorial" label="Getting Started">
+      <tool name="Tutorial" label="Launch the Tutorial" resource="tutorial_loader_tool" />
+    </toolGroup>
+    <toolGroup name="wayTools" label="Way Editing Tools">
+      <tool name="Load Ways" label="Load Ways" resource="way_loader_tool" />
+      <tool name="Add Ways" label="Add Ways" resource="way_adder" />
+      <!--<tool name="Remove Ways" label="Remove Ways" resource="way_remover"/>-->
+      <!--<tool name="Adjust Ways" label="Adjust Ways" resource="way_adjustor"/>-->
+      <tool name="Edit Edges by Drawing" label="Edit edges by drawing replacement edges" resource="edge_editor"/>
+      <!--<tool name="Edit Edges by Offset" label="Edit Edges by Offset" resource="edge_offset_editor"/>-->
+      <tool name="Edit Edge Associations" label="Edit the edge associations to the center lines" resource="edge_associator"/>
+    </toolGroup>
+    <toolGroup name="surfaceTools" label="Surface Tools">
+    </toolGroup>
+    <toolGroup name="layoutTools" label="Layout Tools">
+      <tool name="Surface Creator" label="Create a free-form surface on or between ways" resource="surface_creator" />
+      <tool name="Draw Way Surface" label="Draw a way (e.g. road) surface" resource="way_surface_offset_tool"/>
+      <tool name="Line Offset" label="Draw a simple line along the ways" resource="line_offset_tool"/>
+      <tool name="Draw Sidewalk" label="Draw a sidewalk" resource="sidewalk_offset_tool"/>
+      <tool name="Draw Cycle Track" label="Draw a cycle track" resource="cycle_track_offset_tool"/>
+      <tool name="Draw Tram Line" label="Draw a street surface track" resource="tram_offset_tool"/>
+      <tool name="Draw Rail Line" label="Draw standard rail track" resource="standard_rail_offset_tool"/>
+      <tool name="Draw Repeated Component" label="Draw the selected component repeated along a path" resource="component_offset_tool"/>
+    </toolGroup>
+  </dataset>
+</library>
+

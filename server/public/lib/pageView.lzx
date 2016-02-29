@@ -1,0 +1,6 @@
+<library>
+ <!-- A better name for this class would be fullView, since it simply maximizes width and height -->
+<class name="pageView" extends="view" height="${parent.height}" width="${parent.width}">
+</class>
+</library>
+

@@ -1,0 +1,5 @@
+Notes for OS X:
+The included libraries are required by Rescape, and reference other Ruby libraries in the standard installation that are not in the Sketchup installation. The libaries have been modified slightly to remove references to rubygems, which raises the incompatibility between the present Sketchup OS X embedded ruby version, 1.8.5, and the most newest 1.8.* version, 1.8.7. If Google updates Sketchup to use an up-to-date ruby installation, then the modifications to these gems will become unnecessary (and they could optionally be installed at the standard ruby gem location rather than in this plugin folder).
+
+Notes for Windows:
+

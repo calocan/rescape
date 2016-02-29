@@ -1,0 +1,14 @@
+<library>
+  <include href="pageText.lzx"/>
+  <class name="guideText" extends="pageText">
+    <!-- Set the xpath on init, this seems to work better than making an attribute-->
+    <handler name="oninit"><![CDATA[
+      var xpath = 'segment[@name="'+this.name+'"]'
+      this.setAttribute('datapath', xpath)
+    ]]></handler>
+    <!-- When the data is ready perform a query on the <p> element to get the HTML. There's no easy way to combine text and html elements without using the p element, which laszlo doesn't seem to mind -->
+    <handler name="ondata">
+      this.setAttribute('text', datapath.xpathQuery('p').serialize())
+    </handler>
+  </class>
+</library>

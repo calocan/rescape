@@ -1,0 +1,33 @@
+<library>
+  <include href="childrenHeightView.lzx" />
+  <include href="centeredView.lzx"/>
+  <include href="guideText.lzx"/>
+  <!-- A trivial class that syncs the height of the first element of each subview, used for two horizontally separated views that each have text intros, and therefore need to sync the text heights -->
+  <class name="singleOptionView" extends="childrenHeightView">
+    <attribute name="defaultxSpacing" value="$once{parent.classroot.defaultxSpacing}"/>
+    <attribute name="defaultySpacing" value="$once{parent.classroot.defaultySpacing}"/>
+
+    <!-- Set the datapath to the segments tag, which has segment tags within it -->
+    <handler name="oninit"><![CDATA[
+      var xpath = 'segments[@name="'+this.name+'"]'
+      this.setAttribute('datapath', xpath)
+    ]]></handler>
+
+    <simplelayout axis="y" spacing="$once{classroot.defaultySpacing}"/>
+    <!-- The intro text to the dual option view. This is optional-->
+    <guideText name="intro" width="${parent.width}"/>
+    <childrenHeightView name="singleOption" width="${parent.width}">
+      <simplelayout axis="x" spacing="$once{classroot.defaultxSpacing}"/>
+      <childrenHeightView name="fromIcon" width="${parent.width/2}">
+        <simplelayout axis="y" spacing="2"/>
+        <guideText name="fromIconText" textalign='center' width="${parent.width}"/>
+        <centeredView name="image">
+          <handler name="oninit">
+            this.setAttribute('resource', this.classroot.name+'Icon')
+          </handler>
+        </centeredView>
+      </childrenHeightView>
+    </childrenHeightView>
+  </class>
+</library>
+

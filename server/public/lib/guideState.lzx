@@ -1,0 +1,55 @@
+<library>
+  <include href="pageView.lzx"/>
+  <!--
+    guideState instances correspond one-to-one with states in the navigator.rb. They represent one the visualization of one state, where there are several states per guidePage instance. Each segment will have a way to advance to the corresponding navigator instance in Sketchup from the previous state to the state matching this guideState.
+    The guideState instance name must correspond with the state name in the navigator.rb instance.
+    Every guideState expects to be the child of a guidePage
+  -->
+  <class name="guideState" extends="pageView" bgcolor="white" cornerradius="5" height="${null}">
+    <attribute name="classMarker" type="string" value="guideState"/>
+    <attribute name="defaultySpacing" value="10"/>
+    <attribute name="defaultplacement" value="container" type="string"/>
+
+    <!-- Test to see that one of the state names given for the parent guidePage matches the state represented by this guideSegement by checking the state name against the instance's given name -->
+    <method name="nameMatches" args="states"><![CDATA[
+      return states.indexOf(this.name) >= 0
+    ]]></method>
+
+    <simplelayout axis="y" spacing="$once{classroot.defaultySpacing}"/>
+
+    <pageView name="topBuffer" height="$once{classroot.defaultySpacing}"/>
+
+    <pageText name="title" fontsize="16" fontstyle="bold" textalign="center" >
+      <handler name="oninit"><![CDATA[
+        var data = 'state[@name="' + classroot.name + '"]/@label'
+        this.setAttribute('datapath', data)
+      ]]></handler>
+    </pageText>
+
+    <!-- Create a container for guideText instances whose datapath is the <segments> node holding all the <segment> nodes, which each correspond to a guideText node in subclasses of this class. This is therefore the defaultplacmenet for all subnodes. Note that oninit seems to work better than using the datapath attribute directly -->
+    <childrenHeightView name="container">
+      <handler name="oninit"><![CDATA[
+          this.setAttribute('datapath', 'state[@name="'+classroot.name+'"]/segments')
+      ]]></handler>
+      <simplelayout axis="y" spacing="$once{classroot.defaultySpacing}"/>
+    </childrenHeightView>
+
+    <!-- Holds a list of tips that are stored in the <segment> node of the xml data. These go on the bottom of each segment view. Ideally it will be possibly for users to pose questions here in the future. And have the questions and answers appended to the existing tips. -->
+    <childrenHeightView name="tips">
+      <simplelayout axis="y" spacing="$once{classroot.defaultySpacing-5}"/>
+      <handler name="oninit"><![CDATA[
+        var data='state[@name="' + classroot.name + '"]/tips/tip'
+         tipHolder.setAttribute('datapath', data)
+       ]]></handler>
+      <pageText><b>Tips:</b></pageText>
+      <childrenHeightView name="tipHolder">
+        <simplelayout axis="x" spacing="1"/>
+        <attribute name="text" value="$path{'text()'}"/>
+        <text>*</text>
+        <pageText name="tip" text="${parent.text}"/> <!--errorCorrection="$once{null}"/>-->
+      </childrenHeightView>
+    </childrenHeightView>
+
+    <pageView name="bottomBuffer" height="$once{classroot.defaultySpacing}"/>
+  </class>
+</library>

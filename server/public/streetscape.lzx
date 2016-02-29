@@ -1,0 +1,66 @@
+<library>
+  <include href="lib/guidePage.lzx"/>
+  <include href="lib/childrenHeightView.lzx"/>
+  <include href="lib/guideState.lzx"/>
+  <include href="lib/guideStateButton.lzx"/>
+  <include href="lib/centeredView.lzx"/>
+  <include href="lib/dualOptionView.lzx"/>
+  <include href="lib/singleOptionView.lzx"/>
+  <include href="lib/guideText.lzx"/>
+  <resource name="toolshedLoaderToolIcon" src="images/tools/toolshed_loader_tool.png"/>
+  <resource name="streetscapeToolsDemo" src="images/tutorial/streetscapeToolsDemo.png"/>
+  <resource name="lastStreetscapeToolIcon" src="images/tutorial/lastStreetscapeToolIcon.png"/>
+  <resource name="sidewalkOffsetToolIcon" src="images/tools/sidewalk_offset_tool.png"/>
+  <resource name="tramOffsetToolIcon" src="images/tools/tram_offset_tool.png"/>
+  <resource name="standardRailOffsetToolIcon" src="images/tools/standard_rail_offset_tool.png"/>
+  <resource name="componentOffsetToolIcon" src="images/tools/component_offset_tool.png"/>
+
+  <class name="streetscape" extends="guidePage">
+    <guideState name="streetscape_introduction">
+      <guideText name="intro"/>
+      <guideText name="streetscapeToolSelection"/>
+      <dualOptionView name="toolshedLoaderTool"/>
+      <guideText name="streetscapeToolsDemoPage"/>
+      <centeredView name="streetscapeToolsDemoPageImage" resource="streetscapeToolsDemo"/>
+      <guideText name="lastStreetscapeToolSelection"/>
+      <dualOptionView name="lastSteetscapeTool"/>
+    </guideState>
+    <guideState name="add_sidewalk">
+      <guideText name="sidewalk"/>
+      <singleOptionView name="sidewalkOffsetTool"/>
+      <guideText name="streetscapeToolsDemoPage"/>
+      <guideStateController name="sidewalkButton1" toStep="add_point_to_path_1"/>
+      <guideStateController name="sidewalkButton2" toStep="add_point_to_path_2"/>
+      <guideStateController name="sidewalkFinishButton" toStep="finishing_path"/>
+    </guideState>
+    <guideState name="add_streetcar_track">
+      <guideText name="streetcarTrack"/>
+      <singleOptionView name="tramOffsetTool"/>
+      <guideStateController name="streetcarTrackButton1" toStep="add_point_to_path_1"/>
+      <guideStateController name="streetcarTrackButton2" toStep="add_point_to_path_2"/>
+      <guideStateController name="streetcarTrackButton3" toStep="add_point_to_path_3"/>
+      <guideStateController name="streetcarTrackButton4" toStep="add_point_to_path_4"/>
+      <guideStateController name="streetcarTrackButton5" toStep="add_point_to_path_5"/>
+      <guideStateController name="streetcarTrackFinishButton" toStep="finishing_path"/>
+    </guideState>
+    <guideState name="add_railroad_track">
+      <guideText name="railroadTrack"/>
+      <singleOptionView name="standardRailOffsetTool"/>
+      <guideStateController name="railroadTrackButton1" toStep="add_point_to_path_1"/>
+      <guideStateController name="railroadTrackButton2" toStep="add_point_to_path_2"/>
+      <guideStateController name="railroadTrackButton3" toStep="add_point_to_path_3"/>
+      <guideStateController name="railroadTrackFinishButton" toStep="finishing_path"/>
+    </guideState>
+    <guideState name="add_trees">
+      <guideText name="trees"/>
+      <singleOptionView name="componentOffsetTool"/>
+      <guideStateController name="showAndSelectTreeButton" toStep="show_and_select_component"/>
+      <guideStateController name="treesButton1" toStep="add_point_to_path_1"/>
+      <guideStateController name="treesButton2" toStep="add_point_to_path_2"/>
+      <guideStateController name="treesFinishButton" toStep="finishing_path"/>
+      <guideStateController name="treesSpacingButton1" toStep="spacing_components_1"/>
+      <guideStateController name="treesSpacingButton2" toStep="spacing_components_2"/>
+      <guideStateController name="treesFinalizeButton" toStep="finalize_path"/>
+    </guideState>
+  </class>
+</library>

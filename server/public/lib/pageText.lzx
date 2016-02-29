@@ -1,0 +1,25 @@
+<library>
+  <!-- A simple wrapper of the text class to common default properties -->
+  <class name="pageText" extends="text" width="${parent.width-10}" multiline="true" selectable="true">
+      <!-- height is always too short by a little -->
+      <attribute name="fixHeightFactor" value="1.055"/>
+      <attribute name="fullHeight" value="0"/>
+      <attribute name="errorCorrection" type="string" value="&lt;br/&gt;&lt;br/&gt;"/>
+      <handler name="oninit">
+        // Don't do this because it removes the dyanmic height adjustment
+        //this.setAttribute('height', this.height*this.fixHeightFactor)
+        correctText()
+        this.setAttribute('fullHeight', this.height)
+      </handler>
+      <handler name="ontext">
+        this.setAttribute('fullHeight', this.height)
+        // Correct the bug that height is always off by a little
+        correctText()
+      </handler>
+      <!-- Add <br/><br/> to the end of all text so that the dynamic height is corrected -->
+      <method name="correctText"><![CDATA[
+        if (this.errorCorrection != null && this.errorCorrection.length > 0 && this.text.lastIndexOf(this.errorCorrection)!=this.text.length-this.errorCorrection.length)
+          this.setAttribute('text', this.text + this.errorCorrection)
+      ]]></method>
+  </class>
+</library>

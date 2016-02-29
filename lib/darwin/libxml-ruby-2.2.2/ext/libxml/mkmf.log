@@ -1,0 +1,230 @@
+have_library: checking for socket() in -lsocket... -------------------- no
+
+"gcc -o conftest -I. -I/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/universal-darwin10.0 -I.  -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE   -arch i386 -arch x86_64 -g -Os -pipe -fno-common -DENABLE_DTRACE  -fno-common  -pipe -fno-common   conftest.c  -L. -L/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib -L/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib -L. -arch i386 -arch x86_64      -lruby -lsocket  -lpthread -ldl  "
+conftest.c: In function ‘t’:
+conftest.c:3: error: ‘socket’ undeclared (first use in this function)
+conftest.c:3: error: (Each undeclared identifier is reported only once
+conftest.c:3: error: for each function it appears in.)
+conftest.c: In function ‘t’:
+conftest.c:3: error: ‘socket’ undeclared (first use in this function)
+conftest.c:3: error: (Each undeclared identifier is reported only once
+conftest.c:3: error: for each function it appears in.)
+lipo: can't figure out the architecture type of: /var/tmp//ccJqxl99.out
+checked program was:
+/* begin */
+1: /*top*/
+2: int main() { return 0; }
+3: int t() { void ((*volatile p)()); p = (void ((*)()))socket; return 0; }
+/* end */
+
+"gcc -o conftest -I. -I/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/universal-darwin10.0 -I.  -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE   -arch i386 -arch x86_64 -g -Os -pipe -fno-common -DENABLE_DTRACE  -fno-common  -pipe -fno-common   conftest.c  -L. -L/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib -L/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib -L. -arch i386 -arch x86_64      -lruby -lsocket  -lpthread -ldl  "
+ld: library not found for -lsocket
+collect2: ld returned 1 exit status
+ld: library not found for -lsocket
+collect2: ld returned 1 exit status
+lipo: can't open input file: /var/tmp//ccv8UgwV.out (No such file or directory)
+checked program was:
+/* begin */
+1: /*top*/
+2: int main() { return 0; }
+3: int t() { socket(); return 0; }
+/* end */
+
+--------------------
+
+have_library: checking for gethostbyname() in -lnsl... -------------------- no
+
+"gcc -o conftest -I. -I/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/universal-darwin10.0 -I.  -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE   -arch i386 -arch x86_64 -g -Os -pipe -fno-common -DENABLE_DTRACE  -fno-common  -pipe -fno-common   conftest.c  -L. -L/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib -L/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib -L. -arch i386 -arch x86_64      -lruby -lnsl  -lpthread -ldl  "
+conftest.c: In function ‘t’:
+conftest.c:3: error: ‘gethostbyname’ undeclared (first use in this function)
+conftest.c:3: error: (Each undeclared identifier is reported only once
+conftest.c:3: error: for each function it appears in.)
+conftest.c: In function ‘t’:
+conftest.c:3: error: ‘gethostbyname’ undeclared (first use in this function)
+conftest.c:3: error: (Each undeclared identifier is reported only once
+conftest.c:3: error: for each function it appears in.)
+lipo: can't figure out the architecture type of: /var/tmp//ccYfNgoc.out
+checked program was:
+/* begin */
+1: /*top*/
+2: int main() { return 0; }
+3: int t() { void ((*volatile p)()); p = (void ((*)()))gethostbyname; return 0; }
+/* end */
+
+"gcc -o conftest -I. -I/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/universal-darwin10.0 -I.  -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE   -arch i386 -arch x86_64 -g -Os -pipe -fno-common -DENABLE_DTRACE  -fno-common  -pipe -fno-common   conftest.c  -L. -L/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib -L/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib -L. -arch i386 -arch x86_64      -lruby -lnsl  -lpthread -ldl  "
+ld: library not found for -lnsl
+collect2: ld returned 1 exit status
+ld: library not found for -lnsl
+collect2: ld returned 1 exit status
+lipo: can't open input file: /var/tmp//ccsvchtg.out (No such file or directory)
+checked program was:
+/* begin */
+1: /*top*/
+2: int main() { return 0; }
+3: int t() { gethostbyname(); return 0; }
+/* end */
+
+--------------------
+
+have_library: checking for atan() in -lm... -------------------- no
+
+"gcc -o conftest -I. -I/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/universal-darwin10.0 -I.  -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE   -arch i386 -arch x86_64 -g -Os -pipe -fno-common -DENABLE_DTRACE  -fno-common  -pipe -fno-common   conftest.c  -L. -L/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib -L/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib -L. -arch i386 -arch x86_64      -lruby -lm  -lpthread -ldl  "
+conftest.c: In function ‘t’:
+conftest.c:3: error: ‘atan’ undeclared (first use in this function)
+conftest.c:3: error: (Each undeclared identifier is reported only once
+conftest.c:3: error: for each function it appears in.)
+conftest.c: In function ‘t’:
+conftest.c:3: error: ‘atan’ undeclared (first use in this function)
+conftest.c:3: error: (Each undeclared identifier is reported only once
+conftest.c:3: error: for each function it appears in.)
+lipo: can't figure out the architecture type of: /var/tmp//ccIL1Yna.out
+checked program was:
+/* begin */
+1: /*top*/
+2: int main() { return 0; }
+3: int t() { void ((*volatile p)()); p = (void ((*)()))atan; return 0; }
+/* end */
+
+"gcc -o conftest -I. -I/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/universal-darwin10.0 -I.  -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE   -arch i386 -arch x86_64 -g -Os -pipe -fno-common -DENABLE_DTRACE  -fno-common  -pipe -fno-common   conftest.c  -L. -L/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib -L/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib -L. -arch i386 -arch x86_64      -lruby -lm  -lpthread -ldl  "
+conftest.c: In function ‘t’:
+conftest.c:3: warning: incompatible implicit declaration of built-in function ‘atan’
+conftest.c:3: error: too few arguments to function ‘atan’
+conftest.c: In function ‘t’:
+conftest.c:3: warning: incompatible implicit declaration of built-in function ‘atan’
+conftest.c:3: error: too few arguments to function ‘atan’
+lipo: can't figure out the architecture type of: /var/tmp//ccQ9RJIM.out
+checked program was:
+/* begin */
+1: /*top*/
+2: int main() { return 0; }
+3: int t() { atan(); return 0; }
+/* end */
+
+--------------------
+
+have_library: checking for atan() in -lm... -------------------- yes
+
+"gcc -o conftest -I. -I/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/universal-darwin10.0 -I.  -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE   -arch i386 -arch x86_64 -g -Os -pipe -fno-common -DENABLE_DTRACE  -fno-common  -pipe -fno-common   -fno-builtin conftest.c  -L. -L/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib -L/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib -L. -arch i386 -arch x86_64      -lruby -lm  -lpthread -ldl  "
+conftest.c: In function ‘t’:
+conftest.c:3: error: ‘atan’ undeclared (first use in this function)
+conftest.c:3: error: (Each undeclared identifier is reported only once
+conftest.c:3: error: for each function it appears in.)
+conftest.c: In function ‘t’:
+conftest.c:3: error: ‘atan’ undeclared (first use in this function)
+conftest.c:3: error: (Each undeclared identifier is reported only once
+conftest.c:3: error: for each function it appears in.)
+lipo: can't figure out the architecture type of: /var/tmp//ccq3eYNh.out
+checked program was:
+/* begin */
+1: /*top*/
+2: int main() { return 0; }
+3: int t() { void ((*volatile p)()); p = (void ((*)()))atan; return 0; }
+/* end */
+
+"gcc -o conftest -I. -I/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/universal-darwin10.0 -I.  -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE   -arch i386 -arch x86_64 -g -Os -pipe -fno-common -DENABLE_DTRACE  -fno-common  -pipe -fno-common   -fno-builtin conftest.c  -L. -L/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib -L/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib -L. -arch i386 -arch x86_64      -lruby -lm  -lpthread -ldl  "
+checked program was:
+/* begin */
+1: /*top*/
+2: int main() { return 0; }
+3: int t() { atan(); return 0; }
+/* end */
+
+--------------------
+
+have_library: checking for inflate() in -lz... -------------------- yes
+
+"gcc -o conftest -I. -I/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/universal-darwin10.0 -I.  -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE   -arch i386 -arch x86_64 -g -Os -pipe -fno-common -DENABLE_DTRACE  -fno-common  -pipe -fno-common   conftest.c  -L. -L/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib -L/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib -L. -arch i386 -arch x86_64     -lm  -lruby -lz -lm  -lpthread -ldl  "
+conftest.c: In function ‘t’:
+conftest.c:3: error: ‘inflate’ undeclared (first use in this function)
+conftest.c:3: error: (Each undeclared identifier is reported only once
+conftest.c:3: error: for each function it appears in.)
+conftest.c: In function ‘t’:
+conftest.c:3: error: ‘inflate’ undeclared (first use in this function)
+conftest.c:3: error: (Each undeclared identifier is reported only once
+conftest.c:3: error: for each function it appears in.)
+lipo: can't figure out the architecture type of: /var/tmp//ccYeFTFB.out
+checked program was:
+/* begin */
+1: /*top*/
+2: int main() { return 0; }
+3: int t() { void ((*volatile p)()); p = (void ((*)()))inflate; return 0; }
+/* end */
+
+"gcc -o conftest -I. -I/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/universal-darwin10.0 -I.  -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE   -arch i386 -arch x86_64 -g -Os -pipe -fno-common -DENABLE_DTRACE  -fno-common  -pipe -fno-common   conftest.c  -L. -L/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib -L/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib -L. -arch i386 -arch x86_64     -lm  -lruby -lz -lm  -lpthread -ldl  "
+checked program was:
+/* begin */
+1: /*top*/
+2: int main() { return 0; }
+3: int t() { inflate(); return 0; }
+/* end */
+
+--------------------
+
+have_library: checking for iconv_open() in -liconv... -------------------- yes
+
+"gcc -o conftest -I. -I/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/universal-darwin10.0 -I.  -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE   -arch i386 -arch x86_64 -g -Os -pipe -fno-common -DENABLE_DTRACE  -fno-common  -pipe -fno-common   conftest.c  -L. -L/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib -L/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib -L. -arch i386 -arch x86_64     -lz -lm  -lruby -liconv -lz -lm  -lpthread -ldl  "
+conftest.c: In function ‘t’:
+conftest.c:3: error: ‘iconv_open’ undeclared (first use in this function)
+conftest.c:3: error: (Each undeclared identifier is reported only once
+conftest.c:3: error: for each function it appears in.)
+conftest.c: In function ‘t’:
+conftest.c:3: error: ‘iconv_open’ undeclared (first use in this function)
+conftest.c:3: error: (Each undeclared identifier is reported only once
+conftest.c:3: error: for each function it appears in.)
+lipo: can't figure out the architecture type of: /var/tmp//cclA7LeD.out
+checked program was:
+/* begin */
+1: /*top*/
+2: int main() { return 0; }
+3: int t() { void ((*volatile p)()); p = (void ((*)()))iconv_open; return 0; }
+/* end */
+
+"gcc -o conftest -I. -I/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/universal-darwin10.0 -I.  -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE   -arch i386 -arch x86_64 -g -Os -pipe -fno-common -DENABLE_DTRACE  -fno-common  -pipe -fno-common   conftest.c  -L. -L/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib -L/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib -L. -arch i386 -arch x86_64     -lz -lm  -lruby -liconv -lz -lm  -lpthread -ldl  "
+checked program was:
+/* begin */
+1: /*top*/
+2: int main() { return 0; }
+3: int t() { iconv_open(); return 0; }
+/* end */
+
+--------------------
+
+have_library: checking for xmlParseDoc() in -lxml2... -------------------- yes
+
+"gcc -o conftest -I. -I/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/universal-darwin10.0 -I.  -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE   -arch i386 -arch x86_64 -g -Os -pipe -fno-common -DENABLE_DTRACE  -fno-common  -pipe -fno-common   -I/usr/include/libxml2 conftest.c  -L. -L/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib -L/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib -L. -arch i386 -arch x86_64     -lxml2 -lz -lpthread -licucore -lm -liconv -lz -lm  -lruby -lxml2 -lxml2 -lz -lpthread -licucore -lm -liconv -lz -lm  -lpthread -ldl  "
+conftest.c: In function ‘t’:
+conftest.c:3: error: ‘xmlParseDoc’ undeclared (first use in this function)
+conftest.c:3: error: (Each undeclared identifier is reported only once
+conftest.c:3: error: for each function it appears in.)
+conftest.c: In function ‘t’:
+conftest.c:3: error: ‘xmlParseDoc’ undeclared (first use in this function)
+conftest.c:3: error: (Each undeclared identifier is reported only once
+conftest.c:3: error: for each function it appears in.)
+lipo: can't figure out the architecture type of: /var/tmp//cc8rR2Gm.out
+checked program was:
+/* begin */
+1: /*top*/
+2: int main() { return 0; }
+3: int t() { void ((*volatile p)()); p = (void ((*)()))xmlParseDoc; return 0; }
+/* end */
+
+"gcc -o conftest -I. -I/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/universal-darwin10.0 -I.  -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE   -arch i386 -arch x86_64 -g -Os -pipe -fno-common -DENABLE_DTRACE  -fno-common  -pipe -fno-common   -I/usr/include/libxml2 conftest.c  -L. -L/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib -L/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib -L. -arch i386 -arch x86_64     -lxml2 -lz -lpthread -licucore -lm -liconv -lz -lm  -lruby -lxml2 -lxml2 -lz -lpthread -licucore -lm -liconv -lz -lm  -lpthread -ldl  "
+checked program was:
+/* begin */
+1: /*top*/
+2: int main() { return 0; }
+3: int t() { xmlParseDoc(); return 0; }
+/* end */
+
+--------------------
+
+have_header: checking for libxml/xmlversion.h... -------------------- yes
+
+"gcc -E -I. -I/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/universal-darwin10.0 -I.  -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE     -g -Os -pipe -fno-common -DENABLE_DTRACE  -fno-common  -pipe -fno-common   -I/usr/include/libxml2  conftest.c -o conftest.i"
+checked program was:
+/* begin */
+1: #include <libxml/xmlversion.h>
+/* end */
+
+--------------------
+

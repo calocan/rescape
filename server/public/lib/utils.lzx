@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<library>
+  <include href="pageText.lzx"/>
+  <include href="pageView.lzx"/>
+  <include href="htmlView.lzx"/>
+  <include href="childrenHeightView.lzx"/>
+
+  <!-- gets the clones of the given item or the a one item list of the item itself if it's not a clone -->
+  <method name="getClones" args="clone"><![CDATA[
+    return clone.hasOwnProperty('cloneManager') ?
+    clone.cloneManager.clones :
+      [clone]
+  ]]></method>
+  <method name="getCloneIndex" args="clone"><![CDATA[
+       // Not sure how to get the node for a single item yet
+      return clone.cloneManager.clones.indexOf(clone)
+  ]]></method>
+  <method name="getCloneNode" args="clone"><![CDATA[
+       // Not sure how to get the node for a single item yet
+      return clone.cloneManager.nodes[clone.cloneManager.clones.indexOf(clone)]
+  ]]></method>
+  <method name="findParentOfClass" args="instance,className"><![CDATA[
+    var parent = instance.parent
+    while (parent != parent.parent && !(parent.hasOwnProperty('classMarker') && parent.classMarker == className)) {
+      parent = parent.parent
+    }
+    return parent
+  ]]></method>
+
+</library>

@@ -1,0 +1,65 @@
+<library>
+  <include href="childrenHeightView.lzx"/>
+  <class name="guidePage" extends="childrenHeightView">
+    <attribute name="classMarker" type="string" value="guidePage"/>
+    <attribute name="guideStates"/>
+    <!-- the name of this page that corresponds with its guideData page name attribute -->
+    <attribute name="pageName"/>
+    <attribute name="defaultxSpacing" value="5"/>
+    <attribute name="defaultySpacing" value="5"/>
+    <!-- the other guidePages that must run through their states before this one can run its states -->
+    <attribute name="dependencyPages" value="$once{[]}"/>
+
+    <!-- Tell Sketchup to advance the tutorial page to the next state -->
+    <method name="forward">
+      var command = 'skp:forward'
+      Debug.write("Calling: " + command)
+      window.location=command
+    </method>
+    <!-- Tell Sketchup to backup the tutorial page to the previous state -->
+    <method name="backward">
+      var command = 'skp:backward'
+      Debug.write("Calling: " + command)
+      window.location=command
+    </method>
+    <!-- Tell Sketchup to the given state so that all skipped states are run -->
+    <method name="runToState" args="stateName">
+      var command = 'skp:run_to_state@'+[this.pageName,stateName].join(',')
+      Debug.write("Calling: " + command)
+      window.location=command
+    </method>
+    <method name="runToStateAndRunSteps" args="stateName">
+      var command = 'skp:run_to_state_and_run_steps@'+[this.pageName,stateName].join(',')
+      Debug.write("Calling: " + command)
+      window.location=command
+    </method>
+    <method name="skipToStateAndRunSteps" args="stateName">
+      var command = 'skp:skip_to_state_and_run_steps@'+[this.pageName,stateName].join(',')
+      Debug.write("Calling: " + command)
+      window.location=command
+    </method>
+    <method name="runToStateAndRunToStep" args="stateName, stepName">
+      var command = 'skp:run_to_state_and_run_to_step@'+[this.pageName,stateName,stepName ? stepName : ''].join(',')
+      Debug.write("Calling: " + command)
+      window.location=command
+    </method>
+    <method name="skipToStateAndRunToStep" args="stateName, stepName">
+      var command = 'skp:skip_to_state_and_run_to_step@'+[this.pageName,stateName,stepName ? stepName : ''].join(',')
+      Debug.write("Calling: " + command)
+      window.location=command
+    </method>
+    <method name="runToStateAndRunFirstStep" args="stateName">
+      var command = 'skp:run_to_state_and_run_first_step@'+[this.pageName,stateName].join(',')
+      Debug.write("Calling: " + command)
+      window.location=command
+    </method>
+    <method name="runNextStep" args="stateName">
+      var command = 'skp:next_step@'+[this.pageName,stateName].join(',')
+      Debug.write("Calling: " + command)
+      window.location=command
+    </method>
+
+    <!--TODO For now make a simple layout of the states, this will be changed later -->
+    <simplelayout axis="y" spacing="$once{classroot.defaultySpacing+20}"/>
+  </class>
+</library>

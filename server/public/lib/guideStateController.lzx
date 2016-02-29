@@ -1,0 +1,108 @@
+<library>
+  <include href="childrenHeightView.lzx"/>
+  <include href="guideStateButton.lzx"/>
+
+  <class name="guideStateController" extends="childrenHeightView">
+    <simplelayout axis="x" spacing="15"/>
+    <attribute name="pageName" type="string" />
+    <attribute name="stateName" type="string" />
+    <!-- indicates that the state has multiple steps and this controller should run through the step with the given name -->
+    <attribute name="toStep" type="string" value="$once{null}"/>
+    <attribute name="dependsOnPreviousStates" value="false"/>
+
+    <handler name="oninit">
+      this.setAttribute('pageName', canvas.findParentOfClass(this, 'guidePage').pageName)
+      this.setAttribute('stateName', canvas.findParentOfClass(this, 'guideState').name)
+    </handler>
+
+    <handler name="onbuttonSelected" reference='actionHolder.button'><![CDATA[
+      if (actionHolder.button.buttonSelected) {
+        if (toStep == null) {
+          if (dependsOnPreviousStates)
+            parent.classroot.runToStateAndRunSteps(stateName)
+          else
+            parent.classroot.skipToStateAndRunSteps(stateName)
+        }
+        else {
+          if (dependsOnPreviousStates)
+            parent.clasroot.runToStateAndRunToStep(stateName, toStep)
+          else
+            parent.classroot.skipToStateAndRunToStep(stateName, toStep)
+        }
+      }
+    ]]></handler>
+
+    <childrenHeightView name="actionHolder">
+      <simplelayout axis="y" spacing="5"/>
+      <guideStateButton name='button' stateName="$once{classroot.stateName}" segmentName="$once{classroot.name}"/>
+
+      <childrenHeightView name="clockView" width="200">
+        <state name="thinking" applied="${classroot.actionHolder.button.buttonSelected}">
+          <pageView name="clock" resource="bricks" height="200">
+            <handler name="onapplied" reference="parent"><![CDATA[
+              parent.clock.ticker.setAttribute('started', applied)
+            ]]></handler>
+            <attribute name="rounder"/>
+            <handler name="onrounder">
+              index=Math.floor(rounder)
+              if (index != frame) {
+                this.setAttribute('frame',index)
+              }
+            </handler>
+            <pageText name="wait" text="Please wait for Sketchup"/>
+            <animator name="ticker" attribute="rounder" repeat="Infinity" motion='linear' duration="4000" from="1" to="4.99"/>
+          </pageView>
+        </state>
+      </childrenHeightView>
+    </childrenHeightView>
+
+    <pageText name="status">
+      <!-- Indicates that a multi-step state step completed. This tells the guideStateController to request the next step -->
+      <handler name="onstepCompletedUpdate" args="data" reference="canvas"><![CDATA[
+        page = data[0]
+        state = data[1]
+        step = data[2]
+        // Ignore step completed messages unless the state matches and the controller is active
+        if (classroot.stateName == state) {
+          // If the completed step matches that of this controller, we're done. Disable the controller
+          if (classroot.toStep == step) {
+            Debug.write("Completed step matches this guideStateController: " + [page, state, step].join(", "))
+            disableButton()
+          }
+          // Otherwise, advance to the next step
+          else if (classroot.actionHolder.button.buttonSelected) {
+            Debug.write("State matched but step didn't: " + [step, classroot.toStep].join('!='))
+          }
+        }
+      ]]></handler>
+
+      <handler name="onstateCompletedUpdate" args="data" reference="canvas"><![CDATA[
+        page = data[0]
+        state = data[1]
+        // If the status messages this controller's state then disable it
+        if (classroot.stateName == state) {
+          Debug.write("Completed state matches this guideStateController: " + [page, state].join(", "))
+          disableButton()
+        }
+      ]]></handler>
+
+      <!--Disable the pageButton when the action is complete-->
+      <method name="disableButton"><![CDATA[
+        classroot.actionHolder.button.setAttribute('buttonSelected', false)
+        classroot.actionHolder.button.setAttribute('enabled', false)
+        // This should trigger via a constrain, but it doesn't work in IE
+        classroot.actionHolder.clockView.thinking.setAttribute('applied', false)
+      ]]></method>
+
+      <!-- This receives update messages from Sketchup. It doesn't actually display anything since in the browser since the browser is frozen while Sketchup processes. If Sketchup gave up some CPU time it might work -->
+      <handler name="onstateStatusUpdate" args="data" reference="canvas"><![CDATA[
+        message = data[0]
+        page = data[1]
+        state = data[2]
+        step = data[3]
+        this.setAttribute('text', message)
+      ]]></handler>
+    </pageText>
+
+  </class>
+</library>

@@ -1,0 +1,75 @@
+<library>
+  <!-- Toggles the layout between horizontal and vertical based on the horizontal attribute value -->
+  <class name="toggleLayout" extends="layout">
+    <attribute name="xSpacing" value="5"/>
+    <attribute name="ySpacing" value="5"/>
+    <attribute name="horizontal" value="false"/>
+    <attribute name="calculatePositions" value="false"/>
+    <handler name="onhorizontal">
+      update()
+    </handler>
+
+    <method name="addSubview" args="s">
+      super.addSubview(s);
+      this.update();
+    </method>
+    <method name="update" args="e=null"><![CDATA[
+      if (this.locked) return;
+      this.locked = true;
+      layout = this
+      updateSubviews(subviews, 0, 0)
+      this.locked= false;
+    ]]></method>
+    <!-- You can override the spacing for individual subviews here -->
+    <method name="calculatexSpacing" args="subview, index">
+      return horizontal ? xSpacing : 0
+    </method>
+    <method name="calculateySpacing" args="subview, index">
+      return !horizontal ? ySpacing : 0
+    </method>
+
+    <method name="updateSubviews" args="remainingSubviews, widthSoFar, heightSoFar"><![CDATA[
+      if (remainingSubviews.length == 0)
+        return
+      var subview = remainingSubviews.first()
+      var index= subviews.indexOf(subview)
+      var layout = this
+      if (subview.width != 0 ) {
+        // Calculate the spacing before and after
+        var fractions = [0.5, 0.5]
+        var xPosition, yPosition
+        var nextWidthSoFar = 0, nextHeightSoFar = 0
+        // Do position calculations in priorityLayout mode
+        if (calculatePositions) {
+          xPosition = layout.calculatexPosition(subview, index)
+          yPosition = layout.calculateyPosition(subview, index)
+        }
+        // Otherwise just do spacing
+        else {
+          var xSpacingForSubview = layout.calculatexSpacing(subview, index)
+          var ySpacingForSubview = layout.calculateySpacing(subview, index)
+          var xSpacings = fractions.map(function(fraction) { return fraction*xSpacingForSubview })
+          var ySpacings = fractions.map(function(fraction) { return fraction*ySpacingForSubview })
+          xPosition = widthSoFar+xSpacings[0]
+          yPosition = heightSoFar+ySpacings[0]
+          // Now that we've repositioned we can measure the new widthSoFar and heightSoFar
+          index = remainingSubviews.indexOf(subview)
+          var nextWidthSoFar = xPosition + (horizontal ? subview.width : 0) + xSpacings[1];
+          var nextHeightSoFar = yPosition + (!horizontal ? subview.height : 0) + ySpacings[1];
+        }
+
+        if (subview.setPosition) {
+          subview.setPosition(xPosition, yPosition, horizontal)
+        }
+        else {
+          subview.setAttribute('x', xPosition)
+          subview.setAttribute('y', yPosition)
+        }
+      }
+      else {
+        // Unfortunately update is first called before the subviews have nonzero widths and heights
+      }
+      updateSubviews(remainingSubviews.rest(), nextWidthSoFar, nextHeightSoFar)
+    ]]></method>
+  </class>
+</library>

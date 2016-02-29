@@ -1,0 +1,6 @@
+<library>
+ <!-- Conforms to the parent width, but sets its height to that of the combined children -->
+<class name="childrenHeightView" extends="view" height="${null}" width="${parent.width}">
+</class>
+</library>
+

@@ -1,0 +1,143 @@
+<library>
+  <include href="pageView.lzx"/>
+  <include href="toggleLayout.lzx"/>
+  <class name="pageButtonsView" extends="pageView" width="${null}" height="${null}">
+    <!-- Determines whether or not the layout is horizontal -->
+    <attribute name="horizontal" value="false"/>
+    <!-- The selected page matching one of the button's pageName attribute -->
+    <attribute name="selectedPageName" value="''"/>
+    <attribute name="itemDatapath" type="string" value=""/>
+    <!-- This event is sent with the data node of the button that is hovered oer -->
+    <event name="overPageButton"/>
+    <event name="clickPageButton"/>
+
+    <!-- Update the layout after everything is initialized, since the layout relies on the widths and heights of the buttons, which are not initialized at the time of addsubview -->
+    <handler name="oninit">
+      buttonLayout.update()
+    </handler>
+
+    <!-- Deselect all but the given button -->
+    <method name="deselectAllBut" args="button">
+      buttons.clones.without(button.parent).forEach(function(buttonsClone) {buttonsClone.button.setAttribute('buttonSelected',false)})
+    </method>
+    <method name="selectButtonByPageName" args="pageName">
+      buttonHolder = buttons.clones.filter(function(button) { return pageName == button.pageName })[0]
+      buttonHolder.button.setAttribute('buttonSelected', true)
+    </method>
+
+    <toggleLayout id="buttonLayout" name="buttonLayout" xSpacing="5" ySpacing="5" horizontal="${classroot.horizontal}">
+      <attribute name="priorityLayout" value="${getpriorityLayout(classroot.horizontal, canvas.selectedPageName)}"/>
+      <attribute name="calculatePositions" value="${horizontal &amp;&amp; priorityLayout != null}"/>
+      <!-- The closest ascendant whose width changes according to its ascendants, not descendants -->
+      <!-- The parent view must respond to the horizontal or vertical layout of the buttons, so we need to take its parent to find the true width -->
+      <attribute name="dynamicWidthAscendant" value="$once{classroot.parent}"/>
+      <method name="getpriorityLayout" args="horizontal, selectedPageName"><![CDATA[
+        return classroot.horizontal ?
+          parent.buttons.clones.filter(function(buttonView) {
+            return buttonView.pageName == selectedPageName }
+          ).first() :
+          null
+      ]]></method>
+
+      <!-- Respond to a change in the selected page -->
+      <handler name="onpriorityLayout">
+        this.update()
+      </handler>
+      <!-- Respond to width changes of the grandparent, since the parent resizes to its children -->
+      <handler name="onwidth" reference="dynamicWidthAscendant">
+        this.update()
+      </handler>
+      <method name="calculatexPosition" args="subview, index"><![CDATA[
+         var xSpacing = 10
+         var xOffset = 5
+         var totalWidth = dynamicWidthAscendant.width - xOffset*2
+         var columns = Math.floor(totalWidth / (subview.width + xSpacing))
+         var subviewsPerColumn = Math.ceil(subviews.length / columns)
+
+         if (subview==priorityLayout) {
+          subview.bringToFront()
+         }
+         else {
+          subview.sendToBack()
+         }
+         var spacing = totalWidth/columns + 10
+         return xOffset + spacing*Math.floor(index/subviewsPerColumn)
+      ]]></method>
+
+      <method name="calculateyPosition" args="subview, index"><![CDATA[
+        var xOffset = 5
+        var xSpacing = 10
+        var ySpacing = 5
+        var totalWidth = dynamicWidthAscendant.width - xOffset*2
+        var columns = Math.floor(totalWidth / (subview.width + xSpacing))
+        var subviewsPerColumn = Math.ceil(subviews.length / columns)
+
+        var subviewsCount = subviews.length
+        var spacing = subview.height + ySpacing
+        return spacing*(index%subviewsPerColumn)
+      ]]></method>
+
+    </toggleLayout>
+
+    <!-- TODO move datapath out of here -->
+    <pageView id="buttons" name="buttons" datapath="pageData:/page" width="${setWidthForOrientation(classroot.horizontal, 170)}" height="${null}">
+      <attribute name="pageName" value="$path{'@name'}"/>
+      <attribute name="pageLabel" value="$path{'@label'}"/>
+      <attribute name="text" value="$path{'text()'}"/>
+      <attribute name="hashedData" value="${ {attributes : canvas.getCloneNode(this).attributes, text : this.text} }"/>
+      <handler name="onbuttonSelected" reference="button">
+        if (button.buttonSelected) {
+        classroot.clickPageButton.sendEvent(hashedData)
+        // Make sure no other button is selected
+        parent.deselectAllBut(this.button)
+        }
+      </handler>
+
+      <!-- Set the text to this button -->
+      <handler name="onmouseover" reference="button">
+        if (classroot.horizontal)
+          // Only react to mouseover in vertical mode
+          return
+        classroot.overPageButton.sendEvent(hashedData)
+        // Make sure no other button is selected
+        parent.deselectAllBut(this.button)
+      </handler>
+
+      <!-- Sets the width based on the orientation of the canvas and the parent's width -->
+      <method name="setWidthForOrientation" args="horizontal, parentWidth">
+        return horizontal ? parentWidth*0.85 : parentWidth
+      </method>
+
+      <!-- Reacts to the layout's update call -->
+      <pageButton name="button" font="$once{canvas.font}" fontsize="${classroot.horizontal ? 10 : 12}" width="${parent.width}" options="${canvas.getCloneNode(parent).attributes}"
+        upStartColor="0xFFFFFF"
+        upStopColor="0x999999"
+        borderRadius="${classroot.horizontal ? 1 : 5}"
+        multiline="false">
+      </pageButton>
+
+      <state name="horizontalAndSelected" applied="${classroot.horizontal &amp;&amp; parent.button.buttonSelected}">
+        <handler name="onapplied">
+          parent.button.setAttribute('enabled', !this.applied)
+        </handler>
+        <!--
+        <text width="${parent.button.width}" height="${parent.button.height}" bgcolor='0xFFFFFF' cornerradius="5" text="$path{'@label'}" multiline="false" textalign='center'/>
+        -->
+      </state>
+
+      <method name="setPosition" args="xDestination,yDestination,horizontal">
+        buttonAnimator.xAnimator.setAttribute('to', xDestination)
+        buttonAnimator.yAnimator.setAttribute('to', yDestination)
+        // Don't bother animate if invisible
+        buttonAnimator.setAttribute('duration', (this.visible ? 1000 : 0))
+        buttonAnimator.setAttribute('started', true)
+      </method>
+
+      <animatorgroup name="buttonAnimator" start="false" process="simultaneous">
+        <animator name="xAnimator" attribute="x" to="100" relative="false" motion="linear" start="false"/>
+        <animator name="yAnimator" attribute="y" to="100" relative="false" motion="linear" start="false"/>
+      </animatorgroup>
+
+    </pageView>
+  </class>
+</library>

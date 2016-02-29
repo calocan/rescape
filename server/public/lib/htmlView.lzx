@@ -1,0 +1,42 @@
+<library>
+  <class name="htmlView" extends="view" height="${parent.height}">
+    <attribute name="widthFactor" type="number" value="1"/>
+    <attribute name="src" value="null"/>
+    <attribute name="pdf" value="" type="string"/>
+    <handler name="onsrc">
+      this.html.setAttribute('src', this.src)
+      this.controls.bringToFront()
+      this.html.bringToFront()
+    </handler>
+    <html name="html" width="${parent.width}" height="${parent.height}"/>
+    <view name="controls" y="${parent.html.y-this.height+10}" font="$once{canvas.font}" fontsize="12" fgcolor="blue" bgcolor="white" cornerradius="10">
+      <handler name="oninit">
+       this.setAttribute('height', this.height+10)
+      </handler>
+      <simplelayout axis="x" spacing="20"/>
+      <state name="loading" applied="${parent.parent.html.loading}">
+        <text>Loading...</text>
+      </state>
+      <state name="loaded" applied="${!parent.parent.html.loading}">
+      <text name="link" text="View Externally">
+        <handler name="onmouseup">
+          lz.Browser.loadURL(classroot.src, 'other');
+        </handler>
+        <handler name="oninit"><![CDATA[
+             this.setAttribute('width', this.width+10)
+          ]]></handler>
+      </text>
+      <state name="pdfAvailable" applied="${classroot.pdf != ''}">
+        <text name="pdf" text="PDF">
+          <handler name="onmouseup">
+            lz.Browser.loadURL(classroot.pdf, 'other');
+          </handler>
+          <handler name="oninit"><![CDATA[
+             this.setAttribute('width', this.width+10)
+          ]]></handler>
+        </text>
+      </state>
+      </state>
+    </view>
+  </class>
+</library>

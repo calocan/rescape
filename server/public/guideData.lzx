@@ -1,0 +1,664 @@
+<library>
+  <!-- This dataset represents the various pages of the Sketchup tutorial. The labels must be identical to the page labels of the Sketchup tutorial in order for this script to properly communicate with Sketchup -->
+  <dataset name="pageData">
+    <page name="start" label="Introduction" overStartColor="green">
+      You may hover over any of the steps on the left for a brief description. Click on a button open the interactive tutorial for that page. It's best to proceed in order if it's your first time using Rescape. Some pages of the interactive tutorial builds upon objects created in previous pages.
+      <state name="greeting">
+        <tips>
+        </tips>
+      </state>
+    </page>
+    <page name="download" label="Download Maps &amp; Ways">
+      Sketchup makes it easy to download Google Earth maps of your neighborhood of interest. Once chosen, Rescape can download street, path, rail, waterway and other way data from OpenStreetMap and render flat surfaces on the map. These surfaces will serve as your drawing canvas.
+      <state name="download_introduction" label="Downloading satellite images">
+        <segments>
+          <segment name="intro">
+            <p>The first step is to download satellite images from Google Earth. Luckily, this functionality is built right into Sketchup. You can access satellite images in one of two ways:</p>
+          </segment>
+
+          <segments name="addLocation">
+            <segment name="fromIconText">
+              <p>Click the icon on the top bar of Sketchup</p>
+            </segment>
+            <segment name="fromMenuText">
+              <p>Select menu option File -> Geo-location -> Add Location (or Add More Imagery)</p>
+            </segment>
+          </segments>
+
+          <segment name="eitherOption">
+            <p>Either option will open a special web browser window that lets you select a region from the map. Sketchup requires you to have the <a href="http://www.google.com/earth/explore/products/plugin.html" target="external">Google Earth plugin</a> installed in order to interact with the map. Follow Sketchup's instructions to download the plugin if you haven't already done so.</p>
+          </segment>
+        </segments>
+        <tips>
+          <tip>You must be online to download satellite images.</tip>
+          <tip>Zoom into the area that you wish to work on. If your area is a corridor you can download multiple images. If you want higher resolution images zoom in more and download multiple images, rather than downloading one zoomed out.</tip>
+        </tips>
+      </state>
+
+      <state name="show_main_map" label="Download a satellite image into the tutorial">
+        <segments>
+          <segment name="doDownload">
+            <p>Let's have the tutorial download a map (it's actually just showing a map that was invisible, since maps can't be downloaded programmatically). Click the button to "download" a map.</p>
+          </segment>
+          <segment name="showMapButton">
+            <p>Download (show) the map</p>
+          </segment>
+        </segments>
+        <tips>
+          <tip>The selected satellite image will be placed in the center of the XY plane (the red and green axes) in Sketchup. If Sketchup ever places the first image downloaded off-center, it means that a satellite image was previously downloaded that set the center of the Sketchup axes to a different geographical location. If this happens you can clear the geographical location with File -> Geo-location -> Clear Location. This will remove any maps, and Sketchup will center the next map you download.</tip>
+          <tip>You must be online to download satellite images.</tip>
+          <tip>Zoom into the area that you wish to work on. If your area is a corridor you can download multiple images. If you want higher resolution images zoom in more and download multiple images, rather than downloading one zoomed out.</tip>
+        </tips>
+      </state>
+
+      <state name="download_ways" label="Download way data (e.g. streets and railways) into the tutorial">
+        <segments>
+          <segment name="intro">
+            <p>Rescape uses freely available data from OpenStreetMap to draw roads, paths, railways, waterways, etc. on top of the satellite images that are loaded into Sketchup. By default it will download data for all images and draw the results. Rescape draws flat shapes on top of the satellite images based on the coordinates of the way data and the width, if the width is provided. If no width is provided it picks reasonable defaults based on the way type. The drawn shapes are rarely completely accurate but provide a good starting point.</p>
+          </segment>
+
+          <segments name="downloadWays">
+            <segment name="fromIconText">
+              <p>Download ways using this icon in the Rescape tool shed or toolbar</p>
+            </segment>
+            <segment name="fromMenuText">
+              <p>Select menu option Tools -> Rescape -> Load Ways</p>
+            </segment>
+          </segments>
+
+          <segment name="doWayDownload">
+            <p>Click the button below to download the way data into the tutorial. Downloading and rendering the data may take upwards of a minute, depending on various conditions.</p>
+          </segment>
+          <segment name="wayDownloadButton">
+            <p>Download Ways</p>
+          </segment>
+          <segment name="afterWayDownload">
+            <p>You should see streets, paths, and railways rendered on top of the satellite image. Each way type is drawn as a Sketchup component, meaning all the edges and faces are represented as a group with properties. Rescape stores the underlying way data in the component, which it uses when you draw streetscape elements or edit the way surface.</p>
+          </segment>
+          <tips>
+            <tip>If the downloaded data doesn't render correctly, it's likely that a certain way data overlapped in a way that Rescape could not handle. This occurs frequently for complicated road networks, like freeway interchanges. If rendering errors occur, try deleting the satellite images and downloading ones that avoid complicated interchanges. Future versions of Rescape should handle all types of interchanges.</tip>
+            <tip>If nothing downloads or ways are missing, it may be that there is no OpenStreetMap data for what you're interested in, though OpenStreetMap contains data for most areas. Nonetheless, you'll still be able draw your own ways to compensate. You'll see the tools to do this on the Modify Ways page of the tutorial.</tip>
+          </tips>
+        </segments>
+      </state>
+      <state name="show_extra_maps" label="Download additional satellite images into the tutorial">
+        <segments>
+          <segment name="intro">
+            <p>To add more satellite images to Sketchup after downloading way data, simply follow the download instructions at the top of this page. Don't worry if the images you select overlap with previous ones. Even if you don't need way data for satellite images surrounding your main image(s), it may be usedful to show them for context.</p>
+          </segment>
+          <segments name="addLocation">
+            <segment name="fromIconText">
+              <p>Select this icon in the Rescape tool shed or toolbar</p>
+            </segment>
+            <segment name="fromMenuText">
+              <p>Select menu option File -> Geo-location -> Add More Imagery</p>
+            </segment>
+          </segments>
+
+          <segment name="showMoreMaps">
+            <p>Click the button to simulate downloading more maps in the tutorial</p>
+          </segment>
+          <segment name="showMoreMapsButton">
+            <p>Show More Maps</p>
+          </segment>
+        </segments>
+        <tips>
+          <tip>If the satellite images you select are very far the first image you downloaded, Sketchup might warn you abut layout accuracy. This isn't important unless you are planning to download and display data for a long distance, such as a transportation corridor. In that case, try to start with the most central satellite image to minimize the distance from Sketchup's origin. Sketchup set's a geo-location according to the first satellite image downloaded. You can clear this location (along with all the satellite images) by selecting the menu option File -> Geo-location -> Clear Location.</tip>
+        </tips>
+      </state>
+      <state name="show_merged_ways" label="Download way data for new satellite images and merge ways">
+        <segments>
+          <segment name="intro">
+            <p>Rescape doesn't currently support downloading way data for additional satellite images and merging it with existing data that has already been downloaded and drawn. I hope to implement this feature in the near future. For now, the only thing to do is to download all the satellite images for which you want to download and render way data, and then hit the Rescape Download Ways button.</p>
+          </segment>
+        </segments>
+        <tips>
+        </tips>
+      </state>
+    </page>
+
+    <page name="modify_ways" label="Modify Ways" dependencyPages="download">
+      This step shows you tools for modifying, adding, or deleting various ways to correct errors and match your redesign plans.
+        <state name="start_ways" label="Introduction to modifying way surfaces">
+          <segments>
+            <segment name="intro">
+              <p>Rescape offers several tools allowing you to safely modify the way surfaces (streets, railways, etc.) that it drew on the satellite image(s). You may want to modify ways to make corrections to erroneous data or to add a new way segment that reflects your redesign plans. The tools currently provided by Rescape allow you to add a way of any width to an existing way network (e.g. the streets). They also allow you to change where the edges of existing ways lie. If you've used Sketchup before, you'll know that Sketchup provides many of its own tools to manipulate edges and surfaces. Although there is nothing to stop you from using these tools on the Rescape ways, Rescape provides its own tools so that it can maintain its internal understanding of the way network. If you were to use the internal Sketchup tools to erase and redraw a street, for example, Rescape would no longer know how that street was connected to the rest of the network. That said, there are some Sketchup tools that you can use to manipulate the Rescape way surfaces. The following tutorial page demonstrates the way modification tools from Rescape and other options for editing ways.</p>
+            </segment>
+          </segments>
+        </state>
+
+        <state name="add_way" label="Using the Add Way tool">
+          <segments>
+            <segment name="addWayToolIntro">
+              <p>You can add a new way to one of the way components, using the Add Way tool. Currently the tool is limited to adding a new way off the side of another way, which means you cannot extend a way that dead-ends. The Add Way tool may be selected in one of two ways:</p>
+            </segment>
+            <segments name="addWay">
+              <segment name="fromIconText">
+                <p>Select this icon in the Rescape tool shed or toolbar</p>
+              </segment>
+              <segment name="fromMenuText">
+                <p>Select menu option Tools -> Rescape --> Add Way</p>
+              </segment>
+            </segments>
+            <segment name="addPointsToLineForWay">
+              <p>Once the Add Way tool is selected, you can use it to draw the line segments representing a new way. You can hover anywhere over the satellite image (and beyond) to start drawing a line. In most cases you will want to hover over an existing way to tell Rescape from which edge of which way to start the new way line. If you don't begin on a way, you'll have to connect the last point of your line to one of the ways. Click each button below to make the Add Way tool select a new line for a way in the tutorial model:</p>
+            </segment>
+            <segment name="addPointsButton1">
+              <p>Add a Path Point</p>
+            </segment>
+            <segment name="addPointsButton2">
+              <p>Add Another Path Point</p>
+            </segment>
+            <segment name="addPointsButton3">
+              <p>Finish Path</p>
+            </segment>
+            <segment name="offsetWay">
+              <p>The tool allows you to add points until you double click. It can intersect with any number of ways, but you should never cross a way without clicking on it to indicate an intersection. After double-clicking the tool enters offset mode, allowing you to pull the cursor away from the drawn line to indicate the desired width of the new way. Click the button below to simulate adjusting the path width:</p>
+            </segment>
+            <segment name="offsetWayButton">
+              <p>Offset</p>
+            </segment>
+            <segment name="finalizeOffset">
+              <p>Once the path has been adjusted to the desired width, you can click the mouse button to finish. Click the button to simulate the mouse click:</p>
+            </segment>
+            <segment name="finalizeOffsetButton">
+              <p>Finish Offset</p>
+            </segment>
+          </segments>
+          <tips>
+            <tip>If you want to use a more complicated line, such as an arc, for a new way, you can draw the line with the standard Sketchup tools (such as the Arc tool.) After you draw the line, select it with the Sketchup Arrow tool and then select the Rescape Add Way tool. The selected line will form the basis of the new way. You'll need to attach one end of the line to an existing way center line. Attaching the arc at both ends is not supported, but will be in future releases.</tip>
+            <tip>Similarly, the Add Way tool currently doesn't work allow you to intersect end of a way, and thereby expand the way. This should be addressed in the near-future.</tip>
+            <tip>The Add Way tool doesn't require you to start at a way intersection, but if you don't it needs to intersect a way in order to know what kind of way you're making (e.g. street, path, rail bed, etc). New ways can't currently be freestanding. This will be implemented in the future to allow drawing ways in places without way data.</tip>
+            <tip>The Add Way tool intersects with the center line of ways by illuminating the closest center line point when your cursor is within a way. Make sure that you don't add points within a way that are not center line points. This may cause unexpected behavior. Also make sure that you don't intersect a way without clicking on the center line.</tip>
+            <tip>If you use the Add Way tool and it fails while drawing or offset, you should select undo to reverse any changes made to Rescape's understanding of the underlying way network. Problems with the tool should decrease in future releases. If you encounter problems using layout tools after a failed add way attempt, try selecting the way surface with the Sketchup cursor and then selecting the Edge Associator tool from the Rescape Tool Shed or toolbar. The Edge Associator tool highlights all the center lines and edges and attempts to reassociate edges to the closest center line segement.</tip>
+          </tips>
+        </state>
+
+        <state name="modify_edges" label="Using the Modify Edges tool">
+          <segments>
+            <segment name="modifyEdgesToolIntro">
+              <p>The Modify Edge tool allows you to change a continuous edge of any way surface by clicking an edge and then drawing any number of continuous line segments to another edge. The resultant line segments will replace the edges in between the two intersection points and create a new edge. This is useful when you need to make slight modifications the edge of a section of road to increase its accuracy, or if you want to expand a street area at an intersection to claim more space. When you change way edges with the Modify Edge tool Rescape will remain fully aware of what way edges correspond to what way. You can also modify edges with built-in Sketchup tools, but you may have to show Rescape which edges belong to which way afterward (See the Edge Associator tool.) Rescape only supports expanding the surface of a way at the moment, but the ability to reduce the way width should be available in a near-term release. You can select the Modify Edges tool in one of two ways:</p>
+            </segment>
+            <segments name="modifyEdges">
+              <segment name="fromIconText">
+                <p>Select this icon in the Rescape tool shed or toolbar</p>
+              </segment>
+              <segment name="fromMenuText">
+                <p>Select menu option Tools -> Rescape -> Modify Edges</p>
+              </segment>
+            </segments>
+            <segment name="addPointsToLineForEdge">
+              <p>To watch the Modify Edges tool modify and edge in the tutorial model, click the each button below. Notice that the line segments start at one edge and ends at another.</p>
+            </segment>
+            <segment name="addPointToLineForEdgeButton1">
+              <p>Add point</p>
+            </segment>
+            <segment name="addPointToLineForEdgeButton2">
+              <p>Add point</p>
+            </segment>
+            <segment name="finishLineForEdge">
+              <p>Once the previous edges are drawn, double-click the final point to complete the edge modification. Click the button to simulate:</p>
+            </segment>
+            <segment name="finishLineForEdgeButton">
+              <p>Finalize New Edges</p>
+            </segment>
+          </segments>
+          <tips>
+            <tip>Make sure that the line segments you draw don't cross over an edge. The line segments should begin at one edge and end on another that is fairly close by. Rescape must associate the modified edge with the ways of the edges that the new edge replaces, so if you define a large new surface area by modifying edges Sketchup may associate them with the wrong ways, creating problems for other tools.</tip>
+            <tip>A new edge can either expand the current way surface, retract it, or a mix of both.</tip>
+            <tip>If the Modify Edges tool doesn't do what you want, you can use the Sketchup drawing tools to edit the edges "by hand". Select he Sketchup Selection tool and triple click the way surface of interest. This will put you into component edit mode. Use the pencil, erase, arc, and other tools to adjust the edges as you see fit. When you are finished, hit escape to leave component edit mode, reselect the surface with the Sketchup Selection tool (if it is not already selected), and the select the Edge Associator tool from the Rescape Tool Shed or toolbar. You'll need to associate the new edges you created with the closest center line segments, if Rescape didn't guess the associations correctly. Click on the edge to change and then click on the center line segment that is closest to associate it. See the Edge Associator example below for more information.</tip>
+          </tips>
+      </state>
+
+      <state name="add_internal_way" label="Using the Add Way tool to add an internal way">
+        <segments>
+          <segment name="addInternalWayToolIntro">
+            <p>Sometimes when you modify the edges of a surface, as we did above, it makes sense to create a new way that parallels the new edges. This is especially useful when you create a new public space with edges and you want a way for a streetcar or other fixed path to go through the plaza.</p>
+          </segment>
+          <segments name="addWay">
+            <segment name="intro">
+              <p>Download ways using this icon in the Rescape tool shed or toolbar</p>
+            </segment>
+            <segment name="fromIconText">
+              <p>From the Rescape tool shed or toolbar</p>
+            </segment>
+            <segment name="fromMenuText">
+              <p>Select menu option Tools -> Rescape -> Add Way</p>
+            </segment>
+          </segments>
+          <segment name="addPointsToLineForWay">
+            <p>Once the Add Way tool is selected, you can use it to draw the line segments representing a new internal way. This is the same as adding an external way, as we did at the start of this page, but this time there is no need to offset the way, since it is already within the surface.</p>
+          </segment>
+          <segment name="addPointsButton1">
+            <p>Add a Path Point</p>
+          </segment>
+          <segment name="addPointsButton2">
+            <p>Add Another Path Point</p>
+          </segment>
+          <segment name="addPointsButton3">
+            <p>Finish Path</p>
+          </segment>
+          <segment name="conclusion">
+            <p>Now that we created an internal way to match new edges, it's necessary to use the Edge Associator to associate the edges to the new way. Continue below to see how to use the Edge Associator</p>
+          </segment>
+        </segments>
+        <tips>
+          <tip>
+            Internal ways are useful when you edit surfaces using the Sketchup editing tools. If, for instance, you edit the way surface to add a plaza attached to a street, you can draw internal ways around the perimeter of the plaza, or criss-crossing the plaza. These ways can then be used as guides drawing surfaces with the layout tools (such cycle tracks.) Again, make sure to activate the Edge Associator whenever you change the way surface "by hand" with the Sketchup tools.
+          </tip>
+        </tips>
+      </state>
+      <state name="associate_edges" label="Editing edge associations">
+        <segments>
+          <segment name="edgeEdgeAssociationsIntro">
+            <p>Sometimes you will want to edit the association between the way edges and the center lines of the way. This might happen after you edit the edges with the Edge Editor tool or edit a way surface manually by triple clicking on the way surface and editing edges with the built-in Sketchup tools. You might need to associate new edges to a new internal way, as we created above. The Edge Associator analyzes every edge of the way surface and ensures that it is associated with a center line segment. If an edge is unassociated, it attempts to pick the closest center line segment for the edge. You may want to adjust these associations manually. The first thing to do is select the Sketchup Select tool and select the surface that interests you. This will usually be the street network but might be the path, rail, or waterway. Edges need to be associated to center lines so that the layout tools understand in what order the edges are connected. It allows the layout tools to calculate a network so that you can draw a path from one street to another with just a couple clicks.</p>
+          </segment>
+          <segment name="selectComponent">
+            <p>Click the following button to simulate selecting the street surface with the SKetchup Select tool.</p>
+          </segment>
+          <segment name="clickComponent">
+            <p>Select</p>
+          </segment>
+          <segments name="edgeAssociator">
+            <segment name="intro">
+              <p>Next select Edge Associator from the tool shed, toolbar, or menu:</p>
+            </segment>
+            <segment name="fromIconText">
+              <p>From the Rescape tool shed or toolbar</p>
+            </segment>
+            <segment name="fromMenuText">
+              <p>Select menu option Tools -> Rescape -> Edge Associator</p>
+            </segment>
+          </segments>
+          <segment name="selectEdgeAssociator">
+            <p>Click the following button to simulate selecting the Edge Associator</p>
+          </segment>
+          <segment name="clickEdgeAssoiator">
+            <p>Click</p>
+          </segment>
+          <segment name="selectEdge">
+            <p>The Edge Associator will draw lines from each edge to the center line segment to which it is associated. If any edges were unassociated, they should now have been automatically associated to the closest center line segment. If one of the associates is not correct, click the edge to reassociated. Simulate clicking an edge:</p>
+          </segment>
+          <segment name="clickEdge">
+            <p>Click to Select Edge</p>
+          </segment>
+          <segment name="selectCenterLine">
+            <p>The selected edge will highlight. Hover the mouse over the new center line segment to which to associate the edge. Simulate by clicking:</p>
+          </segment>
+          <segment name="hoverCenterLine">
+            <p>Hover over center line segment</p>
+          </segment>
+          <segment name="clickCenterLine">
+            <p>Click center line segment</p>
+          </segment>
+          <segment name="summary">
+            <p>The edge has now been associated to the center line segment. If you wish you can go fix the rest of the edges at this time by clicking on each edge and the the closest center line segment. It's perfectly fine for multiple edges to assocaite with the same center line segment. The important thing is that all the edges are "ordered", meaning a set of connect edges all connect to one center line segment, then the next set of edges connect to the next center line segment, etc. This allows the streetscape tools to correctly draw paths.</p>
+          </segment>
+        </segments>
+        <tips>
+          <tip>Be sure to select the way surface you are intereseted in with the Sketchup cursor tool prior to selecting the Edge Associator tool. Otherwise the tool might try to select all surfaces which would degrade performance.</tip>
+        </tips>
+      </state>
+    </page>
+
+    <page name="streetscape" label="Streetscape Design" dependencyPages="modify_ways">
+      See how easy-to-use layout tools can help you resurface streets in 3D to favor pedestrians, bikes, and transit.
+      <state name="streetscape_introduction" label="Streetscape Design Introduction">
+        <segments>
+          <segment name="intro">
+            <p>Streetscape Design tools are a suite of layout tools that allow you to draw a 3D component that follows a certain path along a way surface. Depending on the exact tool, you may want the 3D component to follow along the edges of the way (e.g. a sidewalk), to alternatively follow the center of the way or the edge (e.g. a streetcar track), or to sometimes follow a way and sometimes ignore it entirely (e.g. a cycle track.) In any case, you will draw a path that represents a number of connected line segments, sometimes following the curve of a way surface and sometimes not. The path you draw will be converted to a 3D representation when you complete the path. Different layout tools have different properties, such as the tightness of the angle at which they curve, whether they follow the center or edge of a way (or both or neither). These properties are currently hard-wired to the component, but in the future they could be configurable via an interface. Some layout tools require a final step after you complete the path, such as adjusting the width of the path or choosing the number of repeating instances you want to create along the path. Read the status bar at the bottom of the Sketchup window and follow the instructions that appear at each step. In all cases, you will 1) create the path points by single clicking to create explicit path points, 2) finish the path by double-clicking, and 3) possibly complete a final action by moving the cursor and single clicking.</p>
+          </segment>
+          <segment name="streetscapeToolSelection">
+            <p>Since the Streetscape Design tools have a potentially infinite variety, a single button launches the Toolshed, a web page of tool choices. Most of these tools are statically configured to create such 3D components as sidewalks, streetcar tracks, cycle tracks, etc. One special set lets you create paths from the components that you have downloaded from the Sketchup 3D Warehouse or made yourself. For instance, if there is a tree with which you wish to line a way, or a generic building, etc, you can select that component and use it as a Streetscape Design tool. The following options are available for launching the Toolshed:</p>
+          </segment>
+          <segments name="toolshedLoaderTool">
+            <segment name="fromIconText">
+              <p>Select this icon from Rescape tool shed</p>
+            </segment>
+            <segment name="fromMenuText">
+              <p>Select menu option Tools -> Rescape -> Tool Shed</p>
+            </segment>
+          </segments>
+          <segment name="streetscapeToolsDemoPage">
+            <p>Once you select the Toolshed from the toolbar or menu, a web page will appear.</p>
+          </segment>
+          <segment name="lastStreetscapeToolSelection">
+            <p>Alternatively, if you wish to use the last-used Streetscape Design tool, you can select from the following:</p>
+          </segment>
+          <segment name="lastStreetscapeTool">
+            <segment name="fromIconText">
+              <p>Click the button in the Rescape toolbar</p>
+            </segment>
+            <segment name="fromMenuText">
+              <p>Select from the Rescape menu</p>
+            </segment>
+          </segment>
+        </segments>
+        <tips>
+        </tips>
+      </state>
+
+      <state name="add_sidewalk" label="Add a sidewalk">
+        <segments>
+          <segment name="sidewalk">
+            <p>First, let's place a sidewalk along the side of a road. Sidewalks may only be placed along the edges of ways. Click each button in order to simulate drawing a path.</p>
+          </segment>
+          <segments name="sidewalkOffsetTool">
+            <segment name="fromIconText">
+              <p>Select this icon from Rescape tool shed</p>
+            </segment>
+          </segments>
+          <segment name="sidewalkButton1">
+            <p>Add a point</p>
+          </segment>
+          <segment name="sidewalkButton2">
+            <p>Add a point</p>
+          </segment>
+        <segment name="sidewalkFinishButton">
+          <p>Finish the path</p>
+        </segment>
+        </segments>
+        <tips>
+          <tip>Sidewalks don't currently permit you to adjust their width, but will in a future release. If you need a dynamic width, use the Way Surface tool instead.</tip>
+          <tip>Though sidewalks are standard equipment in many places, streets with level surfaces all the way across are more friendly to pedestrians if the danger of vehicles is removed or minimized. You may want to use the various layout tools like the Way Surface tool, the Cycle Track tool, the Streetcar Track tool, etc. to make a complete, level street.</tip>
+        </tips>
+      </state>
+
+      <state name="add_streetcar_track" label="Add a streetcar track">
+        <segments>
+          <segment name="streetcarTrack">
+            <p>Next let's lay down a streetcar track. Streetcar tracks can align to the edge of the way, the center, both, or neither. Watch how some of the path conforms to an edge, some to the center, and some ignores the way. You can instruct the current portion of the path to not to follow the way by holding down the command (mac) or alt (pc) button before clicking a path point. This will create a straight path from the last point to your cursor (while maintaining curve thresholds.)</p>
+          </segment>
+          <segments name="tramOffsetTool">
+            <segment name="fromIconText">
+              <p>Select this icon from Rescape tool shed</p>
+            </segment>
+          </segments>
+          <segment name="streetcarTrackButton1">
+            <p>Add a point</p>
+          </segment>
+          <segment name="streetcarTrackButton2">
+            <p>Add a point</p>
+          </segment>
+          <segment name="streetcarTrackButton3">
+            <p>Add a point</p>
+          </segment>
+          <segment name="streetcarTrackButton4">
+            <p>Add a point (Alt/Command is down)</p>
+          </segment>
+          <segment name="streetcarTrackButton5">
+            <p>Add a point</p>
+          </segment>
+          <segment name="streetcarTrackFinishButton">
+            <p>Finish the path</p>
+          </segment>
+        </segments>
+        <tips>
+          <tip>
+            You'll notice that paths naturally curve in order to avoid harsh angles. Paths like streetcar tracks should have a minimum allowed angle defined to be realistic. Rescape has the ability to set a curve tolerance but only enforces a minimum tolerance. So it's up to you to be realistic about curve tightness until its configurable in the future.
+          </tip>
+          <tip>
+            The track with defaults to widely used rail standard of 4 feet 8 1/2 inches or 1,435 mm. The rail bed defined for the streetcar is 12 feet. Both standards vary by region, but hopefully this provides a "good enough" width until Rescape allows layout tool configuration.
+          </tip>
+        </tips>
+      </state>
+
+      <state name="add_railroad_track" label="Add a railroad track">
+        <segments>
+          <segment name="railroadTrack">
+            <p>Here's an example of a heavy rail track that follows the rail right-of-way. Click each button to watch the path be drawn. Notice that only a start and end point are needed and the track will follow the right of way.</p>
+          </segment>
+          <segments name="standardRailOffsetTool">
+            <segment name="fromIconText">
+              <p>Select this icon from Rescape tool shed</p>
+            </segment>
+          </segments>
+          <segment name="railroadTrackButton1">
+            <p>Add a point</p>
+          </segment>
+          <segment name="railroadTrackButton2">
+            <p>Add a point</p>
+          </segment>
+          <segment name="railroadTrackButton3">
+            <p>Add a point</p>
+          </segment>
+          <segment name="railroadTrackFinishButton">
+            <p>Finish the path</p>
+          </segment>
+        </segments>
+      </state>
+
+      <state name="add_trees" label="Add trees">
+        <segments>
+          <segment name="trees">
+            <p>You can offset any component along a way. Let's select a tree that was already downloaded from the 3D Warehouse and offset it.</p>
+          </segment>
+          <segments name="componentOffsetTool">
+            <segment name="fromIconText">
+              <p>Select Draw Repeated Component icon from Rescape tool shed or toolbar</p>
+            </segment>
+            <segment name="fromMenuText">
+              <p>Select menu option Tools -> Rescape -> Add Repeated Surface</p>
+            </segment>
+          </segments>
+          <segment name="showAndSelectTreeButton">
+            <p>Show and select tree</p>
+          </segment>
+          <segment name="treesButton1">
+            <p>Add a point</p>
+          </segment>
+          <segment name="treesButton2">
+            <p>Add a point</p>
+          </segment>
+          <segment name="treesFinishButton">
+            <p>Finish the path</p>
+          </segment>
+          <segment name="treesSpacingButton1">
+            <p>Adjust the component spacing</p>
+          </segment>
+          <segment name="treesSpacingButton2">
+            <p>Adjust the component spacing</p>
+          </segment>
+          <segment name="treesFinalizeButton">
+            <p>Finalize the components</p>
+          </segment>
+        </segments>
+        <tips>
+          <tip>If Sketchup's performance is poor it might be because it's struggling to render multiple instances of a complex component. Try selecting one of the menu items View -> Face Style -> Wireframe, Shaded, or Monochrome, rather than Shaded with Textures. This will simplify Sketchup's rendering task, and you can always change it back to Shaded with Textures when you want to see the model in the highest detail.</tip>
+        </tips>
+      </state>
+    </page>
+
+    <page name="components" label="3D Components">
+      <state name="component_introduction" label="Introduction">
+        <segments>
+          <segment name="intro">
+            <p>You can use Sketchup's 3D Warehouse of user created 3D Components to enhance your design, such as people, bikers, streetcars, trees, buildings, and street furniture. Rescape offers a few tools to make component layout easier.</p>
+          </segment>
+        </segments>
+        <tips>
+          <tip>A Pointer</tip>
+        </tips>
+      </state>
+
+      <state name="add_closed_surface" label="Fill an enclosed space with a surface">
+        <segments>
+          <segment name="addSurface">
+            <p>Rather than placing components directly on the satellite images, you may want to create simple surfaces that upon which you can place components. These surfaces may likewise be textured, cropped, extruded, etc. without affecting the satellite images or way components. To create a surface, select the Add Surface tool:</p>
+          </segment>
+          <segments name="addSurfaceTool">
+            <segment name="fromIconText">
+              <p>Select the button in the Rescape tool shed or toolbar</p>
+            </segment>
+            <segment name="fromMenuText">
+              <p>Select menu option Tools -> Rescape -> Surface Creator</p>
+            </segment>
+          </segments>
+          <segment name="closedSurface">
+            <p>To create a surface that fills an enclosed space between ways with the Add Surface tool, simply hover over one of the way edges of the enclosed space and double click. Click the buttons to demonstrate:</p>
+          </segment>
+          <segment name="addPointToPath1">
+            <p>Hover over an edge</p>
+          </segment>
+          <segment name="finishPath">
+            <p>Simulate double click to finish</p>
+          </segment>
+        </segments>
+        <tips>
+          <tip>A Pointer</tip>
+        </tips>
+      </state>
+
+      <state name="add_partial_closed_surface" label="Create a partial surface in closed space">
+        <segments>
+          <segment name="partialClosedSurface">
+            <p>You might also create a surface in a closed area that doesn't take up the whole area with the Add Surface tool. Select an edge, then another edge to define the path direction, and then double click a final edge to complete the surface. The completed surface perimeter can subsequently be used as a layou guide, as demonstrated below with a cycle track.</p>
+          </segment>
+          <segment name="addPointToPath1">
+            <p>Click an edge</p>
+          </segment>
+          <segment name="addPointToPath2">
+            <p>Click an edge</p>
+          </segment>
+          <segment name="addPointToPath3">
+            <p>Click an edge</p>
+          </segment>
+          <segment name="finishPath">
+            <p>Double click to finish</p>
+          </segment>
+          <segment name="select">
+            <p>Select the new surface and the Add Cycle Track tool</p>
+          </segment>
+          <segment name="addCycleTrackPoint1">
+            <p>Add a point</p>
+          </segment>
+          <segment name="addCycleTrackPoint2">
+            <p>Add a point</p>
+          </segment>
+          <segment name="finishCycleTrack">
+            <p>Double click to finish</p>
+          </segment>
+        </segments>
+      </state>
+
+      <state name="add_open_surface" label="Create a surface in an open space">
+        <segments>
+          <segment name="openSurface">
+            <p>Similarly, you may create a surface in an open area with the Add Surface tool that abut way edges. Select an edge, then 0 or more open points, and then double click another edge to complete the surface. This sequence also demonstrates adding a material to the finished product using a standard Sketchup material (you can select Windows -> Material to select materials)</p>
+          </segment>
+          <segment name="addPointToPath1">
+            <p>Click an edge</p>
+          </segment>
+          <segment name="addPointToPath2">
+            <p>Click off an edge</p>
+          </segment>
+          <segment name="addPointToPath3">
+            <p>Click an edge</p>
+          </segment>
+          <segment name="finishPath">
+            <p>Double click to finish</p>
+          </segment>
+          <segment name="selectAndApplyMaterial">
+            <p>Apply a material</p>
+          </segment>
+        </segments>
+        <tips>
+        </tips>
+      </state>
+    </page>
+
+    <page name="buildings" label="3D Buildings">
+      Learn what options are available for adding realistic buildings or simple placeholders to your design.
+      <state name="add_open_surface" label="Create a surface in an open space">
+        <segments>
+          <segment name="intro">
+            <p>There are several options for adding 3D buildings to a Google Sketchup model. Rescape only provides minimum extra support for buildings, via the Draw Repeated Component Tool described in the last section below, which allows you to select any component (such as a building) and repeat it along the side of the street. Three ways to add a building are as follows:
+             <ul>
+               <li>Download a building that has already been modeled in Google Earth. You can download these buildings via the Sketchup 3D Warehouse or Building Maker.</li>
+               <li>Create a building using the Google Earth Building Maker. This is rather awkward to use but may be appropriate in some circumstance. Many buildings have been modeled in Google Earth were created using Building Maker</li>
+               <li>Create the building yourself.</li>
+             </ul>
+             If you are creating new buildings or modeling existing nondescript buildings, it may be best to use generic looking buildings that are fairly accurate in footprint and height but don't offer much detail. Unless you are particularly interested in promoting explicit architecture and building styles, it tends to be distracting to add too much detail to buildings for a streetscape redesign. For instance, it may be convenient and aesthetically pleasing to create buildings with a brick facade and vaulted windows, but this may suggest to viewers of your design that you desire that particular style of building, when in fact you just wanted something realistic looking. When in doubt, stick to nondescript buildings, such as the solid buildings shown in tutorial.
+            </p>
+          </segment>
+          <segment name="preModeledBuildings">
+            At this time, Sketchup makes it inconvenient to download buildings already modeled in Google Earth to the correct location in your Sketchup model. Hopefully this will be corrected in the next major Sketchup release.<br/><br/>
+            The easiest way to see if buildings in your design area have already been modeled is to go to File -> Building Maker --> Add New Building. This will launch the Sketchup Building Maker window, which allows you select a building to model yourself. Navigate to the area of your design. You may notice small blue circles on buildings that indicate that they have already been modeled and published by someone else. In this case, click on the building to open up a description of that building. If the building was assigned a unique name, it's best to copy that name and search for it in the Sketchup 3D Warehouse. Close out of Building Maker and open the 3D warehouse with File -> 3D Warehouse -> Get Models. Search for the building name and if appears as a component download it into your model. If the building does not have a unique name, or you cannot find it in the 3D Warehouse. You'll need to download the model from Building Maker. Having clicked on the blue circle to open the building's download page, click to download it as an .skp file. You can either choose to open the .skp file and copy the building to your model (Macintosh only, since it permits multiple models to be open), or save it as a file on your Desktop and then drag the file onto your model (the latter is probably the best option on either operating system.) Once you place the building in your model, you can use the Sketchup Select and Move tools (both under the Tools menu and icons on the top menu bar) to place the building accurately.
+          </segment>
+          <segment name="buildingMaker">
+            If no one has modeled a building of interest to you, and you wish to have a decent representation of it, you can try using the Google Earth Building Maker. Select File -> Building Maker --> Add New Building. Find the building of interest and follow the instructions for modeling it. Building Maker is currently very awkward to use, but you may be able to use it successfully for simple buildings. Building Maker shows you different photos of the building and has you draw shapes in 3D that represent the 2D image. It's fun to test out at any rate! If you successfully make a model. Download it into your model or save it as a separate model and drag it from the Desktop into your model.
+          </segment>
+          <segment name="createBuilding">
+            In many cases you'll want to draw your own building. It's probably best to draw it in your existing site model, so that you can accurately create the footprint. The simplist way to start is to use the Sketchup Rectangle tool (the square on the top toolbar, menu item Draw -> Rectangle, or selectable by typing "r".) Using the rectangle tool, draw a rectangle that traces the building's footprint on the satellite image. If the footprint is not a simple rectangle, cover the whole footprint with the rectangle. Select the Sketchup Select tool (the arrow on the toolbar or Tools -> Select). Select one edge of your rectangle, hold down shift, and select the face of your rectangle. Right-click and select Make Component or select menu item Edit -> Make Component. Give the component a name if desired, select Glue To -> Horizontal, and make sure Replace Selection with Component is checked. You've just created a simple component from the edges and face of your rectangle. Now double click your rectangle component to edit it. Select the Sketchup Push/Pull tool (menu item Tools -> Push/Pull) then click on the surface and pull it up to the building height you desire. You can see the height in the box on the bottom right of the Sketchup window. Click to finish, and you should now have a 3D box representing a primitive version of your building. From here you can use other Sketchup tools to continue to edit the component. This requires a small amount of familiarity with the Sketchup edit tools. The Sketchup Line, Push/Pull, and Offset tools are your best bets to get started. To add a simple roof, use the Line Tool to draw a line across the top of the box. Select the line with the Sketchup Select tool, then select the Sketchup Move tool (Tool -> Move) and click the line and pull it upward to create the apex of your roof. This only works for the simplist sloped roof. You'll need knowledge of the other tools to make more complicated shapes. Most online Sketchup tutorials demonstrate creating a building. One tutorial should give you the knowledge you need.
+          </segment>
+          <segments name="componentOffsetTool">
+            <segment name="intro">
+              If you wish to repeat a generic building, select the building with the Sketchup Select tool and then select the Rescape Draw Repeated Component tool:
+            </segment>
+            <segment name="fromIconText">
+              <p>Select Draw Repeated Component icon from Rescape tool shed or toolbar</p>
+            </segment>
+            <segment name="fromMenuText">
+              <p>Select menu option Tools -> Rescape -> Add Repeated Surface</p>
+            </segment>
+          </segments>
+          <segment name="selectBuilding">
+            <p>Select a building</p>
+          </segment>
+          <segment name="buildingButton1">
+            <p>Add a point</p>
+          </segment>
+          <segment name="buildingButton2">
+            <p>Add a point</p>
+          </segment>
+          <segment name="buildingFinishButton">
+            <p>Finish the path</p>
+          </segment>
+          <segment name="buildingSpacingButton1">
+            <p>Adjust the building spacing</p>
+          </segment>
+          <segment name="buildingSpacingButton2">
+            <p>Adjust the building spacing</p>
+          </segment>
+          <segment name="buildingsFinalizeButton">
+          <p>Finalize the buildings</p>
+          </segment>
+          <tips>
+          </tips>
+        </segments>
+      </state>
+    </page>
+
+    <page name="reports" label="Reports">
+      Generate a graphical report from your model (Not yet supported).
+      <segments>
+        <segment name="intro">
+          Rescape does not yet support generating reports, but hopefully will in the future. For now, there are a couple of key Sketchup tools to use to generate compelling 2D images and 3D animations of your models, which can in turn be inserted into reports, animated slide shows, web sites, etc.
+        </segment>
+        <segment name="export2D">
+          Use the camera tools, such as Orbit, Pan, and Zoom under the Camera menu to select the view of your model to export. If you wish, select View -> Shadows to render shadows for your model. Rendering shadows may take a couple minutes, and it's important not to use the camera tools when Shadows are on, since Sketchup must rerender the shadows each time the camera changes. Also make sure to save your work before turning on shadows, as the processing load sometimes crashes Sketchup! Once shadows have rendered for the time of year and day that you chose, it's time to export a 2D image using File -> Export -> 2D Graphic... Save the file in the format of your choice (.png is a good option for quality, and .jpg to minimize the size.)
+        </segment>
+        <segment name="animation">
+          I compelling way to demonstrate your model is with a 3D animation that tours the viewer around different views of your model. To create an animation, select View -> Animation -> Add Scene. Adjust the camera angle using the Camera menu tools and then selection View -> Animation -> Update Scene to save the camera settings for that scene. Repeat this sequence, adding as many scenes as you wish. You can click between scenes using the scene buttons at the top of the Sketchup model window. To watch the entire animation, select View -> Animation -> Play. When you are satisfied with your animation, you can save your model and play the animation back any time, or use external screen capture to record the animation as it plays. There are also several Sketchup plugins available to capture animation, some of which are free and some are not. I will add popular solutions to capturing animation here in the future (after I try them out.)
+        </segment>
+        <segment name="export3D">
+          There may be situations where you wish to export your 3D model to another format, especially the .kmz format used by Google Earth. Since Google Earth can be viewed in web browsers as a plugin, you can show your model in pan and zoom-enabled 3D on a web page. To export to .kmz, select File -> Export -> 3D Model... and then select the .kmz file type from the drop-down menu. You should then be able to import the .kmz file into Google Earth, or update to a site such as Google Maps that can display it online. I will document this process once I learn of the best technique.
+        </segment>
+      </segments>
+      <tips>
+      </tips>
+    </page>
+
+    <page name="sharing" label="Sharing">
+      Share the report and/or model online.
+      <tips>
+        <tip>A Pointer</tip>
+      </tips>
+    </page>
+    <!-- not a real page, just closes the tutorial and web guide -->
+    <page name="close" label="Close Tutorial" overStartColor="red">
+      Close the tutorial
+    </page>
+  </dataset>
+
+</library>

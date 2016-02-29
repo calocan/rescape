@@ -1,0 +1,185 @@
+<canvas bgcolor="#E0E0E0" height="100%" width="100%" fontsize="14" font="Helvetica">
+  <include href="lib/utils.lzx"/>
+  <include href="lib/pageButton.lzx"/>
+  <include href="guideData.lzx"/>
+  <include href="lib/toggleLayout.lzx"/>
+  <include href="lib/pageButtonsView.lzx"/>
+  <include href="download.lzx"/>
+  <include href="modify_ways.lzx"/>
+  <include href="streetscape.lzx"/>
+  <include href="components.lzx"/>
+  <include href="buildings.lzx"/>
+  <include href="reports.lzx"/>
+  <include href="sharing.lzx"/>
+
+  <resource name="bricks">
+    <frame src="images/tutorial/brick4.png"/>
+    <frame src="images/tutorial/brick3.png"/>
+    <frame src="images/tutorial/brick2.png"/>
+    <frame src="images/tutorial/brick1.png"/>
+  </resource>
+
+  <debug name="debugwindow" x="0" y="582" width="800" height="100"/>
+
+  <script src="javascripts/osteele/lib/collections.js"/>
+  <style name="closeButtonStyle" basecolor="0xdd0000" textcolor="black"/>
+
+  <attribute name="widthRatio" value="${measureWidth()/width}"/>
+  <attribute name="heightRatio" value="${measureHeight()/height}"/>
+  <attribute name="selectedPageName" value="${'start'}"/>
+  <attribute name="guideStates" value="$once{[]}"/>
+  
+  <attribute name="horizontal" value="${selectedPageName!='start'}"/>
+
+  <!-- Parse the page name from the URL -->
+  <handler name="oninit"><![CDATA[
+    // Get rid of the laszlo context menu
+    canvas.setDefaultContextMenu(null);
+    document.oncontextmenu = null;
+
+    pageArgument = getPageArgument()
+    setPage(pageArgument ? pageArgument : 'start')
+  ]]></handler>
+  <method name="getPageArgument"><![CDATA[
+    var query = new lz.URL(lz.Browser.getURL()).query
+    if (query == null) {
+      return null
+    }
+    pairs = query.split('&')
+    pairString = pairs.detect(function(pairString) {
+      pair = pairString.split('=')
+      return pair[0]=='page'
+    })
+    if (pairString && pairString.indexOf('='))
+      return pairString.split('=')[1]
+    else
+      return null
+  ]]></method>
+
+  <!-- External page set call -->
+  <method name="setPage" args="pageName"><![CDATA[
+     canvas.setAttribute('selectedPageName', pageName)
+     main.buttonsAndPageView.buttonsView.selectButtonByPageName(pageName)
+  ]]></method>
+
+  <!-- Calls sketchup to change the page -->
+  <method name="setTutorialPage" args="pageName"><![CDATA[
+     Debug.write("Setting tutorial page to "+pageName)
+     // Don't set the location if no page argument was specified in the URL
+     // This is a hack to allow us to compile the app in a Browser without it calling skp:
+     if (getPageArgument())
+      window.location = 'skp:set_page@'+pageName
+  ]]></method>
+
+  <!-- Called from Sketchup to pass the state of the current navigator -->
+  <method name="registerGuideStates" args="navigatorName, stateNames, options"><![CDATA[
+     Debug.write("Setting active guide states " + stateNames.join(", "))
+     canvas.setAttribute('guideStates', stateNames)
+   ]]></method>
+
+  <!-- A progress report on an operation from Sketchup. This only works if Sketchup can actually interrupt itself long enough for the web guide to run -->
+  <event name='onstateStatusUpdate'/>
+  <method name="stateStatusUpdate" args="message, pageName, stateName, stepName"><![CDATA[
+    Debug.write("Received state status update: " + [message, pageName, stateName, stepName].join(", "))
+    onstateStatusUpdate.sendEvent([message, pageName, stateName, stepName])
+  ]]></method>
+  <!-- A message from Sketchup that a step of the state has completed running, but more steps remain -->
+  <event name='onstepCompletedUpdate'/>
+  <method name="stepCompletedUpdate" args="pageName, stateName, stepName"><![CDATA[
+    Debug.write("Received step completed update: " + [pageName, stateName, stepName].join(", "))
+    onstepCompletedUpdate.sendEvent([pageName, stateName, stepName])
+  ]]></method>
+  <!-- A message from Sketchup that the state has complete running, either as the result of all steps of the state running at once, or there being to more steps to run -->
+  <event name='onstateCompletedUpdate'/>
+  <method name="stateCompletedUpdate" args="pageName, stateName"><![CDATA[
+    Debug.write("Received state completed update: " + [pageName, stateName].join(", "))
+    onstateCompletedUpdate.sendEvent([pageName, stateName])
+  ]]></method>
+
+  <!-- Alert the user that one or more other pages must run before this one -->
+  <alert name="pagesAlert" width="300" height="150"/>
+  <method name="pagesMustRunFirst" args="pageNames"><![CDATA[
+    Debug.write("Received pages must run first: " + pageNames)
+    pageNameList = pageNames.split(',')
+    pagesAlert.setAttribute('text', "Run steps in page" + (pageNameList.length>1?'s ':' ') + pageNameList.join(', ') + " before pressing buttons on this page")
+    pagesAlert.open()
+  ]]></method>
+
+  <pageView x="5" y="5" width="${parent.width-5}" name="main" font="$once{canvas.font}" fontsize="$once{canvas.fontsize}">
+    <simplelayout axis="y" spacing="15"/>
+
+    <pageText name="introText">
+      <handler name="onhorizontal" reference="canvas"><![CDATA[
+        if (canvas.horizontal) {
+           // Animate the intro text down to no height
+           this.animate('height', 0, 1000, false, {process : 'simultaneous'})
+        }
+        else {
+           // Animate the intro back to full height
+           this.animate('height', this.fullHeight, 1000, false, {process : 'simultaneous'})
+        }
+      ]]></handler>
+
+      Welcome to the Rescape Tutorial. This tutorial will demonstrate the Sketchup Rescape tools which will help you redesign a neighborhood for pedestrians and comprehensive public transit. The tutorial both describes the tools and demonstrates their use in the special Sketchup model that has opened to accompany the guide. If this is your first time using Rescape, click through each page of the tutorial, starting with Download Maps &amp; Ways. If you just need a reference information about a particular tool, you'll find reference information about each Rescape tool in Download Maps &amp; Ways, Streetscape Design, or 3D Components.
+      <br/><br/>
+      You don't need any previous experience with Sketchup; it is a powerful 3D modeling program that will help you make compelling site redesigns. The Rescape plugin adds several tools to Sketchup to help make site redesign tasks easier. The pages of this tutorial will take you through the following steps:
+    </pageText>
+
+    <pageView name="buttonsAndPageView">
+      <toggleLayout name="buttonsAndPageLayout" xSpacing="10" ySpacing="10" horizontal="${!canvas.horizontal}">
+        <method name="addSubview" args="s">
+          this.updateDelegate.register(s, 'onheight')
+          super.addSubview(s)
+        </method>
+      </toggleLayout>
+
+      <!-- The dynamic page buttons that can either be vertical or horizontal -->
+      <pageButtonsView id="pageButtonsView" name="buttonsView" horizontal="${canvas.horizontal}" selectedPageName="${canvas.selectedPageName}" itemDatapath="pageData:/page">
+        <handler name="overPageButton" args="data">
+          // Update the text to this page's text
+          if (parent.introState.applied)
+            parent.introTextView.description.setAttribute('text', data['text'])
+        </handler>
+        <handler name="clickPageButton" args="data">
+          // Set the new page name, which propagates all other updates through constraints
+          canvas.setAttribute('selectedPageName', data['attributes']['name'])
+          // Load the contents for the given page
+          if (parent.introState.applied)
+            parent.introTextView.description.setAttribute('text', data['text'])
+          // Tell Sketchup a new page has been selected
+          canvas.setTutorialPage(data['attributes']['name'])
+        </handler>
+      </pageButtonsView>
+
+      <!-- This view shows the introduction text for each page when its button is hovered over, active only on the intro page -->
+      <state name="introState" applied="${!canvas.horizontal}">
+        <pageView name="introTextView" width="${parent.width-(!canvas.horizontal ? parent.buttonsView.width+parent.buttonsAndPageLayout.xSpacing : 0) }" height="${description.height}" >
+          <pageText name="description" width="${parent.width}"/>
+        </pageView>
+      </state>
+
+      <!-- The view for each page. Each page is dynamically constructed from external classes -->
+      <state name="pageViewState" applied="${canvas.horizontal}">
+      <pageView id="pageView" name="pageView" height="${parent.height - parent.buttonsView.height - parent.buttonsAndPageLayout.ySpacing}">
+        <pageView name="pageViews" id="pageViews" datapath="pageData:/page" clip="true">
+          <attribute name="pageName" value="$path{'@name'}"/>
+
+          <!-- Construct the class for each page once within the state -->
+          <handler name="onapplied" reference="pageViewState"><![CDATA[
+              if (pageViewState.applied && (instanceHolder.pageInstance == undefined) && lz[pageName]) {
+                canvas[pageName] = pageInstance = new lz[pageName](instanceHolder, {name : 'pageInstance', pageName : pageName})
+              }
+          ]]></handler>
+
+          <state name="pageViewState" applied="${canvas.selectedPageName == parent.pageName}">
+            <!-- holds the dynamically instantiated class -->
+            <childrenHeightView name="instanceHolder" oninit="sendToBack()" width="${parent.width-parent.instanceScrollbar.width}">
+            </childrenHeightView>
+            <scrollbar name="instanceScrollbar" scrolltarget="$once{parent.instanceHolder}" x="${parent.width-this.width}" />
+          </state>
+        </pageView>
+      </pageView>
+      </state>
+    </pageView>
+ </pageView>
+</canvas>

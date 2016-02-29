@@ -1,0 +1,48 @@
+<library>
+  <include href="lib/guidePage.lzx"/>
+  <include href="lib/childrenHeightView.lzx"/>
+  <include href="lib/guideState.lzx"/>
+  <include href="lib/guideStateController.lzx"/>
+  <include href="lib/centeredView.lzx"/>
+  <include href="lib/dualOptionView.lzx"/>
+  <include href="lib/guideText.lzx"/>
+  <resource name="addSurfaceToolIcon" src="images/tools/surface_creator.png"/>
+  <class name="components" extends="guidePage">
+    <guideState name="component_introduction">
+      <guideText name="intro"/>
+    </guideState>
+    <guideState name="add_closed_surface">
+      <guideText name="addSurface"/>
+      <dualOptionView name="addSurfaceTool"/>
+      <guideText name="closedSurface"/>
+      <guideStateController name="addPointToPath1" toStep="add_point_to_path_1"/>
+      <guideStateController name="finishPath" toStep="finishing_path"/>
+    </guideState>
+    <guideState name="add_partial_closed_surface">
+      <guideText name="partialClosedSurface"/>
+      <guideStateController name="addPointToPath1" toStep="add_point_to_path_1"/>
+      <guideStateController name="addPointToPath2" toStep="add_point_to_path_2"/>
+      <guideStateController name="addPointToPath3" toStep="add_point_to_path_3"/>
+      <guideStateController name="finishPath" toStep="finishing_path"/>
+      <guideStateController name="select" toStep="select"/>
+      <guideStateController name="addCycleTrackPoint1" toStep="add_point_to_cycle_track_1"/>
+      <guideStateController name="addCycleTrackPoint2" toStep="add_point_to_cycle_track_2"/>
+      <guideStateController name="finishCycleTrack" toStep="finishing_cycle_track"/>
+    </guideState>
+    <guideState name="add_open_surface">
+      <guideText name="openSurface"/>
+      <guideStateController name="addPointToPath1" toStep="add_point_to_path_1"/>
+      <guideStateController name="addPointToPath2" toStep="add_point_to_path_2"/>
+      <guideStateController name="addPointToPath3" toStep="add_point_to_path_3"/>
+      <guideStateController name="finishPath" toStep="finishing_path"/>
+      <guideStateController name="selectAndApplyMaterial" toStep="select_and_apply_material"/>
+    </guideState>
+    <guideState name="add_vehicles">
+    </guideState>
+    <guideState name="add_furniture">
+    </guideState>
+    <guideState name="add_people">
+    </guideState>
+  </class>
+</library>
+

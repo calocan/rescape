@@ -1,0 +1,66 @@
+<library>
+  <include href="lib/guidePage.lzx"/>
+  <include href="lib/childrenHeightView.lzx"/>
+  <include href="lib/guideState.lzx"/>
+  <include href="lib/guideStateController.lzx"/>
+  <include href="lib/centeredView.lzx"/>
+  <include href="lib/dualOptionView.lzx"/>
+  <include href="lib/guideText.lzx"/>
+  <resource name="addLocationDemo" src="images/tutorial/addLocationDemo.png"/>
+  <resource name="addLocationIcon" src="images/tutorial/addLocationIcon.png"/>
+  <resource name="downloadWaysIcon" src="images/tools/way_loader_tool.png"/>
+  <class name="download" extends="guidePage">
+
+    <guideState name="download_introduction">
+      <simplelayout axis="y" spacing="$once{classroot.defaultySpacing}"/>
+      <guideText name="intro"/>
+
+      <dualOptionView name="addLocation"/>
+
+      <childrenHeightView name="imageryDownload">
+        <simplelayout name='imageFromDownloadLayout' axis="x" spacing="$once{classroot.defaultxSpacing}"/>
+        <guideText id="eitherOption" name="eitherOption" width="${parent.width-parent.image.width-parent.imageFromDownloadLayout.spacing}"/>
+        <view name="image" resource="addLocationDemo"/>
+      </childrenHeightView>
+    </guideState>
+
+    <guideState name="show_main_map">
+      <childrenHeightView name="showTutorialMap">
+        <simplelayout axis="y" spacing="$once{classroot.defaultySpacing}"/>
+        <guideText name="doDownload"/>
+        <guideStateController name="showMapButton" stateName="show_main_map" dependsOnPreviousStates="true" />
+      </childrenHeightView>
+    </guideState>
+
+    <guideState name="download_ways">
+      <simplelayout axis="y" spacing="$once{classroot.defaultySpacing}"/>
+      <guideText name="intro"/>
+      <dualOptionView name="downloadWays"/>
+      <guideText name="doWayDownload"/>
+      <guideStateController name="wayDownloadButton" stateName="download_ways" dependsOnPreviousStates="true">
+        <handler name="onbuttonSelected">
+          classroot.runToStateAndRunSteps(this.stateName)
+        </handler>
+      </guideStateController>
+      <guideText name="afterWayDownload"/>
+    </guideState>
+
+    <guideState name="show_extra_maps">
+      <simplelayout axis="y" spacing="$once{classroot.defaultySpacing}"/>
+      <guideText name="intro"/>
+      <dualOptionView name="addLocation"/>
+      <guideText name="showMoreMaps"/>
+      <guideStateController name="showMoreMapsButton" stateName="show_extra_maps" dependsOnPreviousStates="false">
+        <handler name="onbuttonSelected">
+          classroot.runToStateAndRunSteps(stateName)
+        </handler>
+      </guideStateController>
+    </guideState>
+
+    <guideState name="show_merged_ways">
+      <simplelayout axis="y" spacing="$once{classroot.defaultySpacing}"/>
+      <guideText name="intro"/>
+    </guideState>
+
+  </class>
+</library>
