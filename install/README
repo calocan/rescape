@@ -1,0 +1,1 @@
+install.rb updates the Sketchup application to point to the system installed Ruby. This allows access to Ruby libraries that are not in the Ruby installation embedded in Sketchup
