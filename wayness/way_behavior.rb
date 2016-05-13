@@ -20,7 +20,7 @@ module Way_Behavior
     way.points
   end
 
-  def attributes
+  def attribute
     way.attributes
   end
 

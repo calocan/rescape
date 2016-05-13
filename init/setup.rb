@@ -4,7 +4,7 @@
 # License::   Distributes under the same terms as Ruby
 
 # config must be included first
-require 'config/Config'
+require 'config/config'
 require 'utils/reload'
 require 'utils/object'
 require 'utils/nil_class'

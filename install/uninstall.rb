@@ -1,8 +1,10 @@
 #!/usr/bin/ruby
 
-require 'install_config'
+require 'config/config'
+=begin
 
 # Delete the Rescape plugin
+PLUGIN_DIR = Rescape::Config::PLUGIN_DIR
 rm_rescape_dir = "rm -r '#{PLUGIN_DIR}/rescape'"
 puts "Deleting Rescape plugin folder with command #{rm_rescape_dir}"
 system(rm_rescape_dir)
@@ -22,3 +24,4 @@ system(rm_rescape_file)
   puts "Restoring file from backup with command #{mv}"
   system(mv)
 }
+=end

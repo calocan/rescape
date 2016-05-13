@@ -1,4 +1,4 @@
-require 'utils/Console.rb'
+require 'utils/console.rb'
 
 class Log
   attr_reader :log

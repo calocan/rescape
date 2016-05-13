@@ -1,4 +1,4 @@
-require 'config/Config'
+require 'config/config'
 require 'utils/basic_utils'
 #
 #

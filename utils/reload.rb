@@ -1,4 +1,4 @@
-require 'config/Config'
+require 'config/config'
 require 'find'
 
 # Reload loads all the files when Rescape starts up, and can also be used to reload after making code changes

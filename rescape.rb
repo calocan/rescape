@@ -1,4 +1,8 @@
-require 'rescape/config/Config.rb' # configures rescape so it can live outside the plugins dir
+####
+# The entry point for the Sketchup plugin
+####
+
+require 'rescape/config/config.rb' # configures rescape so it can live outside the plugins dir
 require 'sketchup.rb'
 require 'extensions.rb'
 require 'rescape/utils/reload.rb'

@@ -3,9 +3,16 @@ module Rescape
   class Config
     class << self; attr_accessor :log end
 
+    PLUGIN_DIR = '~/Library/Application Support/Sketchup 2016/SketchUp/Plugins'
+    TOOLS_DIR = '~/Library/Application Support/Sketchup 2016/SketchUp/Tools'
+    SKETCHUP_PATH='/Applications/Sketchup 2016/SketchUp.app'
+    RUBY_FRAMEWORK="#{SKETCHUP_PATH}/Contents/Frameworks/Ruby.framework/Versions/Current"
+    RESCAPE_LIB_DIR = "#{PLUGIN_DIR}/rescape/lib"
+    RUBY_LIB = `which ruby`
+
     # Determines if the code is running in the Sketchup environment or externally
     def self.in_sketchup?
-      (defined?(Sketchup) && defined?(Sketchup::Color)) ? true : false
+      (defined?(Sketchup) && defined?(Sketchup::Color))
     end
 
     def self.windows?
@@ -32,7 +39,7 @@ module Rescape
 
     # Add the sketchup plugin path for testing outside sketchup
     unless (self.in_sketchup?)
-     ["/Library/Application Support/Google SketchUp 8/SketchUp/Plugins", "/Library/Application Support/Google SketchUp 8/SketchUp/Tools"].each {|x| $:.push(x)}
+     [PLUGIN_DIR, TOOLS_DIR].each {|x| $:.push(x)}
     end
 
     RESCAPE_DIR_ABS = (File.symlink?(BASE_DIR) ? File.readlink(BASE_DIR) : BASE_DIR)+'/'
@@ -48,18 +55,6 @@ module Rescape
 
     # The URI to host for a DRb server. This will host a service that processes way_grouping shortest paths and other laborous processes
     DRB_URI = "druby://localhost:7168"
-
-
-    def self.ruby_install_location
-      darwin? ?
-          # We want to use the default system version of Ruby for darwin
-          '/System/Library/Frameworks/Ruby.framework/Versions/Current/usr/lib/ruby':
-          (in_sketchup? ?
-              # The current state for windows is that Sketchup runs in 1.8.6 and extends itself with the 1.8.6 libraries
-              "#{RESCAPE_DIR_ABS}lib/windows/Ruby186/lib/ruby" :
-              # Outside of Sketchup under the external server we run 1.8.7 in order to have a better supported version of Ruby which makes it possilbe to get a working version of libxml. They appear to be able to communicate somewhat but it crashes often, though this isn't necessarily due to the version mismatch (it might just be running an external process on windows or something)
-              "#{RESCAPE_DIR_ABS}lib/windows/Ruby187/lib/ruby")
-    end
 
     @@configured = false
 
@@ -78,11 +73,21 @@ module Rescape
 
     def self.config
       if(!@@configured)
-        libs = get_ruby_lib_base_dir()
 
-        if !$:.include? libs[0]
-          libs.each	{|x| $:.push x}
+        # Put the rescape dir in the search path
+        $:.push BASE_DIR
+
+        # Add libs to the search path.
+        # These libs are included in rescape because they are not part of the default Ruby build
+        lib = self.in_sketchup? ?
+          Sketchup.find_support_file("${RESCAPE_DIR}/lib", "Plugins") :
+          "${RESCAPE_DIR}/lib"
+
+
+        if !$:.include? lib
+          $:.push lib
         end
+
         $gem=gems = []
         # Locate the required gems. Generic gems are in the lib dir and os specific ones are further down a level in the os dir
         os_skip_paths = ['windows', 'darwin', 'Ruby187', 'Ruby186']
@@ -104,10 +109,6 @@ module Rescape
           }
         }
         gems.each {|x| $:.push(x)}
-        # Windows needs the .so files in the LOAD_PATH
-        if (windows?)
-              $:.push("#{ruby_install_location}/1.8/i386-mswin32")
-        end
         # Override the default XML parser for the OSMLIB gem
         # I haven't been able to make Libxml work on Windows, so resort to REXML
         if (darwin? || !in_sketchup?)
@@ -115,47 +116,15 @@ module Rescape
         else
           ENV['OSMLIB_XML_PARSER'] = "REXML"
         end
+
+        # Now we can set up logging
         require 'logging/log'
         self.log = Log.new(Rescape::Config::LOG_DIR, "rescape").log
 
         @@configured = true
       end
     end
-
-    def self.get_ruby_lib_base_dir()
-        # Remove the most minor version number if under 1.9.0.
-        if RUBY_VERSION < '1.9.0'
-          ver=RUBY_VERSION.split('.')[0..1].join('.')
-        else
-          raise "ruby version >1.8.* is not supported"
-          #ver=RUBY_VERSION
-        end
-        prefix=ruby_install_location
-        if (darwin?)
-          # Use the ruby platform that is used by the external ruby installation for OS X since the current Sketchup ruby platform darwin8 is out of date
-          darwin_versions = []
-          Dir.foreach("#{prefix}/#{ver}/") {|path|
-            if (path.match('universal-darwin10.0'))
-                #path.match('i686-darwin'))
-              darwin_versions.push(path.split('/')[-1])
-            end
-          }
-          platform = darwin_versions.sort.last
-        else
-          # Use the RubyInstaller platform
-          platform = 'i386-mingw32'
-        end
-
-        # Add the ruby libs
-        load_path = ["#{prefix}/#{ver}", "#{prefix}/#{ver}/#{platform}", "#{prefix}/site_ruby/#{ver}", "#{prefix}/site_ruby/#{ver}/#{platform}"]
-        puts load_path.inspect
-        # only apply if there are things installed there
-        #$LOAD_PATH << "#{pre}/vendor_ruby/#{ver}"
-        #$LOAD_PATH << "#{pre}/vendor_ruby/#{ver}/#{plat}"
-        # Add the rescape base directory
-        [BASE_DIR, "."] + load_path
-      end
-    end
+  end
 end
 
 Rescape::Config.config()
